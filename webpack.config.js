@@ -22,7 +22,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
- 
+
 const pkg = require('./package.json');
 const MockServer = require('./mock/server.js');
 
@@ -132,17 +132,22 @@ let webpackConfig = {
         { loader:'less-loader', options: { modifyVars:cssVars } }
       ])
     }, {
+      test: /\.css$/,
+      use: {
+        loader: 'css-loader'
+      }
+    }, {
       // 图片。将 30KB 以下的图片用 data-url 的 base64 加载，超出 30KB 的图片将使用 file-loader 保存为文件
       test: /\.(png|jpg|jpeg|gif|ico)(\?v=\d+\.\d+\.\d+)?$/i,
-      use: { loader:'url-loader', options: { 
+      use: { loader:'url-loader', options: {
         limit: 10000,
         name: pathConfig.imageFile // 指定文件名
       }}
     }, {
       // 字体。将 10KB 以下的字体用 base64 的 data-url 加载
-      test: /\.(woff2?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-      use: { loader:'url-loader', options: { 
-        limit: 10000, 
+      test: /\.(woff|woff2?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+      use: { loader:'url-loader', options: {
+        limit: 10000,
         name: pathConfig.fontFile
       }}
     }]

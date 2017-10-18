@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import Ajax from '../components/ajax';
 import Api from './Api.js';
 
@@ -10,6 +10,7 @@ export default class Project {
   @observable testing;
   @observable development;
   @observable apis;
+  @observable fold;
 
   constructor(project) {
     const { id, name, description, production, testing, development, apis = [] } = project;
@@ -20,6 +21,7 @@ export default class Project {
     this.testing = testing;
     this.development = development;
     this.apis = apis.map(api => (new Api(api)));
+    this.fold = false;
   }
 
   static async loadById(id) {
@@ -44,5 +46,10 @@ export default class Project {
     return Ajax.put(`/projects/${project.id}`, {
       body: project
     });
+  }
+
+  @action
+  toggleFold(fold) {
+    this.fold = !fold;
   }
 }
