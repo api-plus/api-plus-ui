@@ -15,6 +15,8 @@ import AddIcon from 'material-ui-icons/Add';
 import MenuIcon from 'material-ui-icons/Menu';
 
 import ProjectList from './ProjectList';
+import ProjectCreate from './ProjectCreate';
+import ProjectDetail from './ProjectDetail';
 
 import './Home.less';
 
@@ -45,24 +47,24 @@ export default class Homepage extends Component {
                   <MenuIcon />
                 </IconButton> */}
                 <Typography type="title" color="inherit" >
-                  总览
+                  API Plus
                 </Typography>
               </Toolbar>
             </AppBar>
             <nav className="layout-nav">
               <div className="layout-nav-logo">
                 {/* <a href=""> Api Plus</a> */}
-                <Button className="add-button" fab aria-label="add">
-                  <Link to="/create/project"><AddIcon /></Link>
+                <Button raised className="add-button">
+                  <Link to="/create/project">＋ 新建项目</Link>
                 </Button>
               </div>
               <ProjectList />
             </nav>
             <div className="layout-content">
               <Route exact path="/" component={Home}/>
-              {/* <Route path="/create/project" component={ProjectCreate}/>
-              <Route path="/update/project/:id" component={ProjectUpdate}/>
+              <Route path="/create/project" component={ProjectCreate}/>
               <Route path="/project/:id" component={ProjectDetail}/>
+              {/* <Route path="/update/project/:id" component={ProjectUpdate}/>
               <Route path="/create/api" component={ApiCreate}/>
               <Route path="/update/api/:id" component={ApiUpdate}/>
               <Route path="/api/:id" component={ApiDetail}/> */}

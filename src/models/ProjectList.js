@@ -21,7 +21,13 @@ export default class ProjectList {
   @action
   async loadProjects() {
     const { data } = await Project.loadAll();
-    this.projects = data.map(project => new Project(project));
+
+    let projects = [];
+    for(let i = 0; i < data.length; i++) {
+      const project = await Project.parse(data[i]);
+      projects.push(project);
+    }
+    this.projects = projects;
   }
 
   @action

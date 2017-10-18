@@ -5,93 +5,54 @@
 import React from 'react';
 import { func } from 'prop-types';
 import { inject } from 'mobx-react';
-import { Button, Card, Form, Input } from 'antd';
-const FormItem = Form.Item;
-const TextArea = Input.TextArea;
+import brace from 'brace';
+import AceEditor from 'react-ace';
+import { Button } from 'material-ui';
 
 import Project from '../models/Project';
 import Ajax from '../components/ajax';
 
+import 'brace/mode/yaml';
+import 'brace/theme/monokai';
+
 @inject('projectListStore')
 export default class ProjectCreate extends React.Component {
-  constructor(props) {
-    super(props);
+
+  state = {
+    spec: Project.sample
   }
 
-  onSave = () => {
-    this.form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-      
-      Project.create(values)
-      .then(({ code, data }) => {
-        this.props.projectListStore.addProject(new Project(data));
-        location.hash = `/project/${data.id}`;
-      });
+  handleProjectChange = (value) => {
+    this.setState({
+      spec: value
     });
   }
 
-  saveFormRef = (form) => {
-    this.form = form;
+  handleSaveClick = async () => {
+    const { data } = await Project.create({
+      spec: this.state.spec
+    });
+
+    const project = await Project.parse(data);
+    this.props.projectListStore.addProject(project);
+    location.hash = `/project/${data.id}`;
   }
 
   render() {
+    const { spec } = this.state;
     return (
-      <div>
-        <Card title="新建项目">
-          <WrappedProjectForm ref={this.saveFormRef}/>
-          <br />
-          <Button type="primary" size="large" onClick={this.onSave}>保存</Button>
-        </Card>
+      <div className="page-project-create">
+        <AceEditor 
+          mode="yaml" 
+          theme="monokai" 
+          height="600px"
+          width="100%"
+          value={spec}
+          onChange={this.handleProjectChange}
+        />
+        <br />
+        <Button raised color="primary" onClick={this.handleSaveClick}>保存</Button>
       </div>
     );
   }
 }
-
-class ProjectForm extends React.Component {
-
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    const itemLayout =  {
-      labelCol: { span: 2 },
-      wrapperCol: { span: 22 },
-    };
-
-    return (
-      <Form>
-        <FormItem {...itemLayout} label="名称">
-          {getFieldDecorator('name',{
-            rules: [{ required: true,  message: '请输入项目名称' }]
-          })(
-            <Input placeholder="项目名称" />
-          )}
-        </FormItem>
-        <FormItem {...itemLayout} label="说明">
-          {getFieldDecorator('description',{
-            rules: [{ required: true,  message: '请输入项目说明' }]
-          })(
-            <TextArea placeholder="项目说明" autosize={{ minRows: 2, maxRows: 6 }} />
-          )}
-        </FormItem>
-        <FormItem {...itemLayout} label="线上环境">
-          {getFieldDecorator('production')(
-            <Input placeholder="线上环境地址，如 http://{host}:{port}" />
-          )}
-        </FormItem>
-        <FormItem {...itemLayout} label="测试环境">
-          {getFieldDecorator('testing')(
-            <Input placeholder="测试环境地址，如 http://{host}:{port}" />
-          )}
-        </FormItem>
-        <FormItem {...itemLayout} label="开发环境">
-          {getFieldDecorator('development')(
-            <Input placeholder="开发环境地址，如 http://{host}:{port}" />
-          )}
-        </FormItem>
-      </Form>
-    );
-  }
-}
-
-const WrappedProjectForm = Form.create()(ProjectForm);
