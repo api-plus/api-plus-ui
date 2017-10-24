@@ -12,7 +12,7 @@ export default class Project {
     const { id, paths, info } = project;
     this.id = id || Date.now();
     this.paths = paths;
-    this.info = info
+    this.info = info;
   }
 
   static async parse(project) {
@@ -46,80 +46,71 @@ export default class Project {
     return body;
   }
 
-  @action
-  toggleFold(fold) {
-    this.fold = !fold;
-  }
-
   static sample = `swagger: '2.0'
 info:
   version: 1.0.0
-  title: Swagger Petstore
+  title: Api Plus Example Spec
   description: >
-    A sample API that uses a petstore as an example
-    to demonstrate features in the swagger-2.0 specification
+    Api Plus 接口定义示例文档
 consumes:
   - application/json
 produces:
   - application/json
 paths:
-  /pets:
+  /api/projects:
     get:
-      description: Returns all pets from the petstore
+      description: 返回所有的项目
       responses:
         '200':
-          description: pet response
+          description: projects response
           schema:
             type: array
             items:
-              $ref: '#/definitions/pet'
+              $ref: '#/definitions/project'
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/errorModel'
+            $ref: '#/definitions/error'
     post:
-      description: Creates a new pet in the store
+      description: 创建一个新项目
       parameters:
-        - name: pet
+        - name: project
           in: body
-          description: Pet to add to the store
+          description: 新建的项目的数据
           required: true
           schema:
-            $ref: '#/definitions/pet'
+            $ref: '#/definitions/project'
       responses:
         '200':
-          description: pet response
+          description: projects response
           schema:
-            $ref: '#/definitions/pet'
+            $ref: '#/definitions/project'
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/errorModel'
-  '/pets/{name}':
+            $ref: '#/definitions/error'
+  '/api/projects/{id}':
     get:
-      description: Returns a single pet by name
+      description: 返回一个项目
       parameters:
-        - name: name
+        - name: id
           in: path
-          description: Name of the pet to fetch
+          description: 项目 id
           required: true
           type: string
       responses:
         '200':
-          description: pet response
+          description: project response
           schema:
-            $ref: '#/definitions/pet'
+            $ref: '#/definitions/project'
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/errorModel'
+            $ref: '#/definitions/error'
 definitions:
-  pet:
-    $ref: pet.yaml
-  pet-owner:
-    $ref: pet-owner.yaml
-  errorModel:
-    $ref: error.json
-  
+  project:
+    $ref: project.yaml
+  error:
+    $ref: error.yaml
   `
 }

@@ -7,5 +7,14 @@ export default {
   projectListStore: new ProjectList(),
   // projectStore: new Project(),
   // apiStore: new Api(),
-  // uiStore: new UI(),
+  uiStore: new UI(),
 }
+
+// export default {
+//   init: function async() {
+//     const projectList = await (new ProjectList).init();
+//     return {
+//       projectListStore: projectList
+//     }
+//   }
+// }

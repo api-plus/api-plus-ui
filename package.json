@@ -11,10 +11,10 @@
     "publish": "./bin/publish -e testing"
   },
   "entry": {
-    "index": "./src/pages/Home.jsx"
+    "index": "./src/pages/index.jsx"
   },
   "title": {
-    "pages/home": "接口管理平台1"
+    "index": "接口管理平台"
   },
   "staticRoot": "",
   "mockEnable": false,
@@ -26,6 +26,7 @@
   "dependencies": {
     "brace": "^0.10.0",
     "fs": "^0.0.1-security",
+    "history": "^4.7.2",
     "http-status": "^1.0.1",
     "js-cookie": "^2.1.4",
     "material-ui": "^1.0.0-beta.16",
@@ -36,6 +37,7 @@
     "react": "^15.5.4",
     "react-ace": "^5.4.0",
     "react-dom": "^15.5.4",
+    "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "superagent": "^3.6.3",
     "swagger-parser": "^3.4.2",

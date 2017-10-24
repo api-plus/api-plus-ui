@@ -5,13 +5,14 @@
 import React from 'react';
 import { func } from 'prop-types';
 import { inject } from 'mobx-react';
-import brace from 'brace';
 import AceEditor from 'react-ace';
 import { Button } from 'material-ui';
-
+import createHistory from 'history/createHashHistory';
+const history = createHistory();
 import Project from '../models/Project';
 import Ajax from '../components/ajax';
 
+import brace from 'brace';
 import 'brace/mode/yaml';
 import 'brace/theme/monokai';
 
@@ -34,11 +35,14 @@ export default class ProjectCreate extends React.Component {
     });
 
     const project = await Project.parse(data);
-    this.props.projectListStore.addProject(project);
-    location.hash = `/project/${data.id}`;
+    const { projectListStore } = this.props;
+    projectListStore.addProject(project);
+    projectListStore.setProject(project);
+    history.push(`/project/${data.id}`)
   }
 
   render() {
+    
     const { spec } = this.state;
     return (
       <div className="page-project-create">

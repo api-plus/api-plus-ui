@@ -4,25 +4,19 @@ import { inject, observer } from 'mobx-react';
 import Project from '../models/Project';
 import './ProjectDetail.less';
 
-@inject('projectListStore') @observer
+@inject('projectListStore', 'uiStore') @observer
 export default class ProcjectDetail extends React.Component {
 
-  componentDidMount() {
-    // this.loadProject(this.props.match.params.id);
-  }
-
   componentWillReceiveProps(newProps) {
-    // if (newProps.match.params.id !== this.props.match.params.id) {
-    //   this.loadProject(newProps.match.params.id);
+    // if (newProps.match && 
+    //   newProps.match.params.id !== this.props.match.params.id) {
+    //   const { projectListStore, uiStore } = this.props;
+    //   const project = projectListStore.getProject(parseInt(newProps.match.params.id));
+    //   if (!project) return;
+    //   projectListStore.setProject(project);
+    //   uiStore.setPageTitle(project.info.title);
     // }
   }
-
-  async loadProject(id) {
-    const { data } = await Project.loadById(id);
-    this.props.projectListStore.setProject(new Project(data));
-    this.props.projectListStore.setApi({});
-  }
-
 
   handleDeleteClick = async () => {
     const { project, projects } = this.props.projectListStore;
@@ -42,10 +36,13 @@ export default class ProcjectDetail extends React.Component {
   render() {
 
     const project = this.props.projectListStore.project;
+    if (!project) {
+      return null;
+    }
 
     return (
       <div className="component-project-detail">
-        project detail
+        {project.info.title}
           {/*<h2>{project.name}</h2>
           <p>{project.description}</p>
           <h3>环境</h3>

@@ -1,5 +1,7 @@
 
 import { observable, action } from 'mobx';
+import { matchPath } from 'react-router'
+
 
 import Ajax from '../components/ajax';
 import Project from "./Project";
@@ -7,8 +9,9 @@ import Project from "./Project";
 
 export default class ProjectList {
   @observable projects = [];
-  @observable project = {}; // 当前选中的 project
-  @observable api = {}; // 当前选中的 api
+  @observable project = null; // 当前选中的 project
+  @observable path = null; // 当前选中的 path
+  @observable method = null; // 当前选中的 method
 
   constructor() {
     this.loadProjects();
@@ -16,6 +19,14 @@ export default class ProjectList {
 
   getProject(projectId) {
     return this.projects.find(project => project.id === projectId);
+  }
+
+  isActiveProject(projectId) {
+    if (this.project) {
+      return this.project.id === projectId;
+    } else {
+      return false;
+    }
   }
 
   @action
@@ -27,7 +38,26 @@ export default class ProjectList {
       const project = await Project.parse(data[i]);
       projects.push(project);
     }
+
     this.projects = projects;
+
+    // 设置当前选中的 project
+    // 这里需要优化一下，如何解析 hash 中的 params 和 query
+    // 在包含 params 和 query 的情况下，取到的 hashPath 是 /project/1?method=get&path=xxx
+    // 需要解析出 params = { id: 1 } 和 query = { method: 'get', path: 'xxx' }
+    let hashPath = location.hash.substr(1);
+    const match = matchPath(hashPath, {
+      path: '/project/:id',
+      exact: true,
+      strict: false
+    });
+    if (match) {
+      const projectId = parseInt(match.params.id);
+      console.log(projectId);
+      if (projectId) {
+        this.setProjectById(projectId);
+      }
+    }
   }
 
   @action
@@ -58,16 +88,25 @@ export default class ProjectList {
       this.projects.splice(index, 1);
     }
   }
-
+  
   @action
-  setApi(api) {
-    this.api = api;
+  setPath(path) {
+    this.path = path;
   }
 
   @action
+  setMethod(method) {
+    this.method = method;
+  }
+  
+  @action
   setProject(project) {
+    if (!project) return;
     this.project = project;
   }
 
-
+  @action
+  setProjectById(id) {
+    this.setProject(this.getProject(id));
+  }
 }

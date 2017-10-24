@@ -2,27 +2,26 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'mobx-react';
 import { HashRouter, Link, Route } from 'react-router-dom';
+import createHistory from 'history/createHashHistory';
+const history = new createHistory();
 
 import store from '../models';
 
-import Typography from 'material-ui/Typography';
-
 import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import AddIcon from 'material-ui-icons/Add';
 import MenuIcon from 'material-ui-icons/Menu';
 
+import AppToolBar from '../components/toolbar';
 import ProjectList from './ProjectList';
 import ProjectCreate from './ProjectCreate';
 import ProjectDetail from './ProjectDetail';
+import PathDetail from './PathDetail';
 
-import './Home.less';
+// import './Home.less';
 
-
-
-class Home extends React.Component {
+export default class Home extends React.Component {
   render() {
     return (
       <div className="page-home">
@@ -31,57 +30,4 @@ class Home extends React.Component {
       </div>
     );
   }
-}
-
-
-export default class Homepage extends Component {
-
-  render() {
-    return (
-      <Provider {...store}>
-        <HashRouter>
-          <div className="layout-container">
-            <AppBar className="layout-header">
-              <Toolbar>
-                {/* <IconButton color="contrast" aria-label="Menu">
-                  <MenuIcon />
-                </IconButton> */}
-                <Typography type="title" color="inherit" >
-                  API Plus
-                </Typography>
-              </Toolbar>
-            </AppBar>
-            <nav className="layout-nav">
-              <div className="layout-nav-logo">
-                {/* <a href=""> Api Plus</a> */}
-                <Button raised className="add-button">
-                  <Link to="/create/project">＋ 新建项目</Link>
-                </Button>
-              </div>
-              <ProjectList />
-            </nav>
-            <div className="layout-content">
-              <Route exact path="/" component={Home}/>
-              <Route path="/create/project" component={ProjectCreate}/>
-              <Route path="/project/:id" component={ProjectDetail}/>
-              {/* <Route path="/update/project/:id" component={ProjectUpdate}/>
-              <Route path="/create/api" component={ApiCreate}/>
-              <Route path="/update/api/:id" component={ApiUpdate}/>
-              <Route path="/api/:id" component={ApiDetail}/> */}
-            </div>
-          </div>
-        </HashRouter>
-      </Provider>
-    );
-  }
-}
-
-render(
-  <Homepage />,
-  document.querySelector('#root')
-)
-
-// 支持热替换
-if (module.hot) {
-  module.hot.accept();
 }
