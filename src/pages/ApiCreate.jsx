@@ -38,7 +38,7 @@ export default class ApiCreate extends React.Component {
       Api.create(values)
       .then(({ code, data }) => {
         this.props.projectListStore.addApi(new Api(data));
-        location.hash = `/api/${data.id}`;
+        location.href = `/api/${data.id}`;
       });
     });
   }

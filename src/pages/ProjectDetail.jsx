@@ -1,48 +1,74 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
+import Button from 'material-ui/Button';
+import Icon from 'material-ui/Icon';
+import DeleteIcon from 'material-ui-icons/Delete';
+import EditIcon from 'material-ui-icons/ModeEdit';
 
 import Project from '../models/Project';
+import PathDetail from './PathDetail';
 import './ProjectDetail.less';
 
 @inject('projectListStore', 'uiStore') @observer
 export default class ProcjectDetail extends React.Component {
+  
+  async componentDidMount() {
+    const store = this.props.projectListStore;
+    if (!store.projects.length) {
+      await store.loadProjects();
+    }
 
-  componentWillReceiveProps(newProps) {
-    // if (newProps.match && 
-    //   newProps.match.params.id !== this.props.match.params.id) {
-    //   const { projectListStore, uiStore } = this.props;
-    //   const project = projectListStore.getProject(parseInt(newProps.match.params.id));
-    //   if (!project) return;
-    //   projectListStore.setProject(project);
-    //   uiStore.setPageTitle(project.info.title);
-    // }
+    const projectId = parseInt(this.props.match.params.id);
+    const project = store.getProject(projectId);
+    if (project) {
+      store.setProject(project);
+    } else {
+      location.hash = '/404';
+    }
   }
 
   handleDeleteClick = async () => {
     const { project, projects } = this.props.projectListStore;
-    const { code } = await Project.remove(project.id);
+    const { code } = await Project.del(project.id);
     this.props.projectListStore.removeProject(project.id);
-    if (projects.length) {
-      location.hash = `/project/${projects[0].id}`;
-    } else {
-      location.hash = '';
-    }
+    location.hash = '/';
   }
-  handleUpdateClick = () => {
+  handleEditClick = () => {
     const projectId = this.props.projectListStore.project.id;
-    location.hash = `/update/project/${projectId}`;
+    location.hash = `/edit/project/${projectId}`;
   }
 
   render() {
-
     const project = this.props.projectListStore.project;
-    if (!project) {
-      return null;
-    }
+    if (!project) return null;
 
+    const schema = project.schema;
     return (
       <div className="component-project-detail">
-        {project.info.title}
+        <div className="operation-btns">
+          <Button className="btn" fab color="primary" onClick={this.handleEditClick}>
+            <EditIcon />
+          </Button>
+          <Button className="btn" fab color="accent" onClick={this.handleDeleteClick}>
+            <DeleteIcon />
+          </Button>
+        </div>
+        <h1>{schema.info.title}</h1>
+        <p>Version: {schema.info.version}</p>
+        <p>{schema.info.description}</p>
+        {/* <p>
+          { schema.consumes && `请求类型: ${schema.consumes.join()}` }
+          &nbsp;
+          { schema.produces && `返回类型: ${schema.produces.join()}` }
+        </p> */}
+        {
+          Object.entries(schema.paths).map(([path, methods]) => {
+            return Object.entries(methods).map(([method, pathSchema]) => {
+              return <PathDetail path={path} method={method} schema={pathSchema} />
+            });
+          })
+        }
+
           {/*<h2>{project.name}</h2>
           <p>{project.description}</p>
           <h3>环境</h3>

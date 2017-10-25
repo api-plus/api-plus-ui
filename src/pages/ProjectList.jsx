@@ -14,6 +14,7 @@ import './ProjectList.less';
 
 @inject('projectListStore') @observer
 export default class ProjectsList extends React.Component {
+
   handleProjectClick = (project, path, method) => {
     const { projectListStore } = this.props;
     projectListStore.setProject(project);
@@ -42,18 +43,14 @@ export default class ProjectsList extends React.Component {
   render() {
     const { projects, project, api } = this.props.projectListStore;
     const projectId = project ? project.id : '';
-
+    
     return (
       <List className="project-manager-container">
-
-        {/* <Button raised color="primary" className="add-button" onClick={this.handleCreateProjectClick}>
-          ＋ 新建项目
-        </Button> */}
       {
         projects.map((item, i) => (
           <span key={item.id}>
             <ListItem className="list-item" button onClick={this.handleProjectClick.bind(this, item, null, null)}>
-            {item.info.title}
+            {item.schema.info.title}
             </ListItem>
             <Collapse 
               className="list-collapse"
@@ -62,7 +59,7 @@ export default class ProjectsList extends React.Component {
               unmountOnExit
             >
             {
-              Object.entries(item.paths).map(([path, schema]) => (
+              Object.entries(item.schema.paths).map(([path, schema]) => (
                 <span key={path}>
                 {
                   Object.keys(schema).map(method => (

@@ -1,22 +1,34 @@
 import React from 'react';
-import { Card, Icon, Popconfirm } from 'antd';
 import { inject, observer } from 'mobx-react';
-import { func, string } from 'prop-types';
+import { string } from 'prop-types';
 
 import Project from '../models/Project';
-import Ajax from '../components/ajax';
 
 import './PathDetail.less'
 
 @inject('projectListStore') @observer
 class PathDetail extends React.Component {
 
+  static propTypes = {
+    path: string,
+    method: string
+  }
+
+  static defaultProps = {
+    path: null,
+    method: null
+  }
+
   render() {
-    let { path } = this.props.match.params;
-    path = decodeURIComponent(path);
+    let { path, method } = this.props;
+
 
     return (
-      <span>{path}</span>
+      <div className={`component-path-detail ${method}`}>
+        <div className="summary">
+          <span className="method">{method.toUpperCase()}</span> {path}
+        </div>
+      </div>
     );
   }
 }

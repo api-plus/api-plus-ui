@@ -15,7 +15,7 @@ export default class AppRouter extends React.Component {
           <Switch>
             <Route exact path="/" component={Home}/>
             <Route path="/create/project" component={ProjectCreate}/>
-            <Route path="/edit/project" component={ProjectEdit}/>
+            <Route path="/edit/project/:id" component={ProjectEdit}/>
             <Route path="/project/:id" component={ProjectDetail}/>
             <Route component={NoMatch}/>
           </Switch>

@@ -48,7 +48,7 @@ export default class ApiUpdate extends React.Component {
       const apiId = this.props.projectListStore.api.id;
       values.id = apiId;
       Api.update(values).then((data) => {
-        location.hash = `/api/${apiId}`;
+        location.href = `/api/${apiId}`;
       });
     });
   }

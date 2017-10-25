@@ -6,19 +6,36 @@ import Api from './Api.js';
 
 export default class Project {
   id;
-  @observable paths;
+  isNew; // 是否前端新建的项目对象，尚未提交到后端
+  @observable yaml;
+  @observable schema;
 
   constructor(project) {
-    const { id, paths, info } = project;
+    const { id, yaml, schema } = project;
+
+    this.isNew = id ? false : true;
     this.id = id || Date.now();
-    this.paths = paths;
-    this.info = info;
+    this.yaml = yaml;
+    this.schema = schema;
   }
 
-  static async parse(project) {
-    const json = await SwaggerParser.YAML.parse(project.spec);
-    json.id = project.id;
-    return new Project(json);
+  @action
+  update(project) {
+    this.yaml = project.yaml;
+    this.schema = project.schema;
+  }
+
+  static async factory(project) {
+    project = project || {
+      yaml: Project.defaultYaml
+    };
+
+    project.schema = await Project.parse(project.yaml);
+    return new Project(project);
+  }
+
+  static async parse(yaml) {
+    return await SwaggerParser.YAML.parse(yaml);
   }
 
   static async loadById(id) {
@@ -31,31 +48,27 @@ export default class Project {
     return body;
   }
 
-  static async create(project) {
+  static async post(project) {
     const { body } = await Ajax.post('/api/projects').send(project);
     return body;
   }
 
-  static async remove(id) {
+  static async del(id) {
     const { body } = await Ajax.del(`/api/projects/${id}`);
     return body;
   }
 
-  static async update(project) {
+  static async put(project) {
     const { body } = await Ajax.put(`/api/projects/${project.id}`).send(project);
     return body;
   }
 
-  static sample = `swagger: '2.0'
+  static defaultYaml = `swagger: '2.0'
 info:
   version: 1.0.0
-  title: Api Plus Example Spec
+  title: Api Plus Example Schema
   description: >
     Api Plus 接口定义示例文档
-consumes:
-  - application/json
-produces:
-  - application/json
 paths:
   /api/projects:
     get:

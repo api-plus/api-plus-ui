@@ -13,23 +13,28 @@ import Project from '../models/Project';
 import 'brace/mode/yaml';
 import 'brace/theme/monokai';
 
-@inject('projectListStore')
-export default class ProjectCreate extends React.Component {
+@inject('projectListStore') @observer
+export default class ProjectEdit extends React.Component {
 
-  componentWillMount() {
-    const project = new Project({
-      yaml: Project.defaultYaml
-    });
-    this.props.projectListStore.tempProject = project;
-  }
-  
-  componentDidMount() {
+  async componentDidMount() {
     const store = this.props.projectListStore;
     if (!store.projects.length) {
-      store.loadProjects();
+      await store.loadProjects();
+    }
+
+    const projectId = parseInt(this.props.match.params.id);
+    const project = store.getProject(projectId);
+    if (project) {
+      store.setProject(project);
+      store.tempProject = new Project({
+        id: project.id,
+        yaml: project.yaml
+      });
+    } else {
+      location.hash = '/404';
     }
   }
-
+  
   componentWillUnMount() {
     this.props.projectListStore.tempProject = null;
   }
@@ -39,20 +44,18 @@ export default class ProjectCreate extends React.Component {
   }
 
   handleSaveClick = async () => {
-    const { data } = await Project.post({
-      yaml: this.props.projectListStore.tempProject.yaml
-    });
-
-    const project = await Project.factory(data);
-    const { projectListStore } = this.props;
-    projectListStore.addProject(project);
-    projectListStore.setProject(project);
-    history.push(`/project/${data.id}`);
+    const store = this.props.projectListStore;
+    const { id, yaml } = store.tempProject;
+    await Project.put({ id, yaml });
+    const project = await Project.factory({ id, yaml });
+    store.project.update(project);
+    history.push(`/project/${project.id}`);
   }
 
   render() {
     const { tempProject } = this.props.projectListStore;
-    
+    if (!tempProject) return null;
+
     return (
       <div className="page-project-create">
         <AceEditor 
@@ -60,7 +63,7 @@ export default class ProjectCreate extends React.Component {
           theme="monokai" 
           height="600px"
           width="100%"
-          defaultValue={tempProject.yaml}
+          value={tempProject.yaml}
           onChange={this.handleProjectChange}
         />
         <br />

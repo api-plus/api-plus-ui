@@ -1,23 +1,33 @@
-.component-api-card {
-  h2 {
-    margin: 0 0 10px 0;
-    font-size: 16px;
+.component-path-detail {
+  margin: 10px 0;
+  border-radius: 4px;
+
+  .summary {
+    padding: 5px;
+    font-weight: bold;
+    .method {
+      border-radius: 3px;
+      padding: 6px 15px;
+      width: 80px;
+      color: #fff;
+      display: inline-block;
+      text-align: center;
+    }
   }
-  h3 {
-    margin: 10px 0;
-    font-size: 14px;
+
+  &.get {
+  border: 1px solid #49cc90;
+
+    .method {
+      background-color: #49cc90;
+    }
   }
-  p {
-    font-size: 14px;
-  }
-  .extra-btn {
-    margin: 2px;
-    padding: 3px;
-    color: #666;
-    font-size: 14px;
-    
-    &:hover {
-      color: #108ee9;
+
+  &.post {
+    border: 1px solid #61affe;
+
+    .method {
+      background-color: #61affe;
     }
   }
 }
