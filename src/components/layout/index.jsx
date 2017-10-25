@@ -1,21 +1,28 @@
+// 参考官方的框架布局 https://material-ui-next.com/demos/drawers/#persistent-drawer
 import React from 'react';
 import { Provider } from 'mobx-react';
-import createHistory from 'history/createHashHistory';
-const history = new createHistory();
-
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
-import blue from 'material-ui/colors/blue';
-import Divider from 'material-ui/Divider';
 import Toolbar from 'material-ui/Toolbar';
+import List from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import { createMuiTheme, MuiThemeProvider, withStyles } from 'material-ui/styles';
+import blue from 'material-ui/colors/blue';
+import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
+import Button from 'material-ui/Button';
+import AddIcon from 'material-ui-icons/Add';
+import MenuIcon from 'material-ui-icons/Menu';
+import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
+import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 
 import store from '../../models';
 import AppRouter from '../app-router';
-import AppToolBar from '../toolbar';
 import ProjectList from '../../pages/ProjectList';
 
-// import './index.less';
+const drawerWidth = 280;
 
 const styles = theme => ({
   '@global': {
@@ -35,83 +42,101 @@ const styles = theme => ({
       margin: 0,
     },
   },
-  layoutContainer: {
-    display: 'flex',
-    alignItems: 'stretch',
-    minHeight: '100vh',
+  root: {
     width: '100%',
+    zIndex: 1,
+    overflow: 'hidden',
   },
-  layoutHeader: {
-    transition: theme.transitions.create('width'),
-    '@media print': {
-      position: 'absolute',
-    },
-    [theme.breakpoints.up('lg')]: {
-      width: 'calc(100% - 250px)',
-    },
-  },
-  layoutNavContainer: {
-    [theme.breakpoints.up('lg')]: {
-      width: 250,
-    },
-    [theme.breakpoints.down('lg')]: {
-      display: 'none'
-    },
-    flex: '0 0 auto',
-  },
-  layoutNav: {
-    backgroundColor: '#fff',
-    width: 250,
-    borderRight: '1px solid rgba(0, 0, 0, 0.12)',
-    overflowY: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100vh',
-    flex: '1 0 auto',
-    position: 'fixed',
-    top: 0,
-    zIndex: theme.zIndex.navDrawer,
-    willChange: 'transform',
-    '&:focus': {
-      outline: 'none',
-    },
-    WebkitOverflowScrolling: 'touch', // Add iOS momentum scrolling.
-  },
-  logoContainer: {
-    display: 'flex',
-  },
-  logo: {
-    padding: '0 16px',
-    backgroundColor: '#fff',
-    flexGrow: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
-  title: {
-    color: theme.palette.text.secondary,
-    '&:hover': {
-      color: theme.palette.primary[500],
-    },
-  },
-  caption: {
-    color: theme.palette.text.secondary,
-  },
-  navList: {
-    paddingTop: '8px',
-    paddingBottom: '8px',
-    flex: '1 1 auto',
-    margin: '0',
-    padding: '0',
+  appFrame: {
     position: 'relative',
-    listStyle: 'none',
+    display: 'flex',
+    width: '100%',
+    height: '100%',
   },
-  layoutContentContaine: {
-    margin: '80px 24px 100px'
-  }
+  appBar: {
+    position: 'absolute',
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  buttonContainer: {
+    textAlign: 'center',
+  },
+  button: {
+    width: '100%',
+    margin: '8px 0',
+    lineHeight: '20px',
+    padding: '12px 16px',
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
+  },
+  hide: {
+    display: 'none',
+  },
+  drawerPaper: {
+    position: 'relative',
+    height: '100%',
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    width: '100%',
+    marginLeft: -drawerWidth,
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    height: 'calc(100% - 56px)',
+    marginTop: 56,
+    [theme.breakpoints.up('sm')]: {
+      content: {
+        height: 'calc(100% - 64px)',
+        marginTop: 64,
+      },
+    },
+  },
+  contentShift: {
+    marginLeft: 0,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
 });
 
 class Layout extends React.Component {
+  state = {
+    open: true,
+  };
+
+  handleDrawerOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     const { classes } = this.props;
     const theme = createMuiTheme({
@@ -119,36 +144,51 @@ class Layout extends React.Component {
         primary: blue
       },
     });
-    
+
     return (
       <Provider {...store}>
         <MuiThemeProvider theme={theme}>
-          <div className={classes.layoutContainer}>
-            <AppBar className={classes.layoutHeader}>
-              <AppToolBar />
-            </AppBar>
-            <nav className={classes.layoutNavContainer}>
-              <div className={classes.layoutNav}>
-                <div>
-                  <div className={classes.logoContainer}>
-                    <Toolbar className={classes.logo}>
-                      <Typography className={classes.title} type="title" gutterBottom color="inherit">
-                        Api Plus
-                      </Typography>
-                      <Typography className={classes.caption} type="caption">
-                        Api Document Manager
-                      </Typography>
-                      <Divider absolute />
-                    </Toolbar>
+          <div className={classes.root}>
+            <div className={classes.appFrame}>
+              <AppBar className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
+                <Toolbar disableGutters={!this.state.open}>
+                  <IconButton
+                    color="contrast"
+                    aria-label="open drawer"
+                    onClick={this.handleDrawerOpen}
+                    className={classNames(classes.menuButton, this.state.open && classes.hide)}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography type="title" color="inherit" noWrap>
+                    Api Plus
+                  </Typography>
+                </Toolbar>
+              </AppBar>
+              <Drawer
+                type="persistent"
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                open={this.state.open}
+              >
+                <div className={classes.drawerInner}>
+                  <div className={classes.drawerHeader}>
+                    <IconButton onClick={this.handleDrawerClose}>
+                      {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
                   </div>
-                  <div className={classes.navList}>
-                    <ProjectList />
+                  <Divider />
+                  <div className={classes.buttonContainer}>
+                    <Button href='#/create/project' className={classes.button}>新建项目</Button>
                   </div>
+                  <Divider />
+                  <ProjectList />
                 </div>
-              </div>
-            </nav>
-            <div className={classes.layoutContentContaine}r>
-              <AppRouter />
+              </Drawer>
+              <main className={classNames(classes.content, this.state.open && classes.contentShift)}>
+                <AppRouter />
+              </main>
             </div>
           </div>
         </MuiThemeProvider>
@@ -156,5 +196,9 @@ class Layout extends React.Component {
     );
   }
 }
+
+Layout.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(Layout);

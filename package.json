@@ -24,6 +24,7 @@
     }
   },
   "dependencies": {
+    "bootstrap-material-design": "^4.0.0-beta.4",
     "brace": "^0.10.0",
     "fs": "^0.0.1-security",
     "history": "^4.7.2",
