@@ -21,6 +21,7 @@ export default class ProjectsList extends React.Component {
   render() {
     const { projects, project, api } = this.props.projectListStore;
     const currentProject = project;
+    console.log(projects);
     return (
       <List className="project-manager-container">
         {

@@ -1,4202 +1,1034 @@
 {
-  "code": "SUCCESS",
-  "message": "",
-  "data": [{
-    "id": 1,
-    "name": "大数据管理平台",
-    "description": "大数据中心数据工程部大数据管理平台，包含血缘关系、作业管理、元数据管理、用户管理、权限管理等",
-    "production": null,
-    "development": null,
-    "testing": "http://10.214.129.167:8080",
-    "gmt_create": "2017-08-30T01:45:30.120Z",
-    "gmt_modified": "2017-08-30T01:45:30.120Z",
-    "apis": [{
-      "id": 27,
-      "path": "/author/getPri",
-      "description": "获取当前用户对指定资源的访问权限",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "type": {
-          "name": "type",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "资源类型，如：web、hive 等"
-        },
-        "resource": {
-          "name": "resource",
-          "type": "string",
-          "description": "资源列表，以逗号分隔。如：users,metadata",
-          "isRequired": "true"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "resource1": {
-              "name": "resource1",
-              "type": "number",
-              "description": "权限类型，1 读，2 写，3 读+写"
-            },
-            "resource2": {
-              "name": "resource2",
-              "type": "number",
-              "description": "权限类型，1 读，2 写，3 读+写"
-            },
-            "resource3": {
-              "name": "resource3",
-              "type": "number",
-              "description": "权限类型，1 读，2 写，3 读+写"
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
+    "version": "1.0.0",
+    "title": "Swagger Petstore",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "petstore.swagger.io",
+  "basePath": "/v2",
+  "tags": [
+    {
+      "name": "pet",
+      "description": "Everything about your Pets",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "store",
+      "description": "Access to Petstore orders"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/pet": {
+      "post": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Add a new pet to the store",
+        "description": "",
+        "operationId": "addPet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pet object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pet"
             }
           }
-        }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
       },
-      "gmt_create": "2017-09-18T02:46:12.298Z",
-      "gmt_modified": "2017-09-25T02:37:37.227Z",
-      "project_id": 1
-    }, {
-      "id": 33,
-      "path": "/author/group/addGroup",
-      "description": "对于超级管理员；添加组，管理员，添加组",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "group": {
-          "name": "group",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "组名"
-        },
-        "description": {
-          "name": "description",
-          "type": "string",
-          "description": "组描述",
-          "isRequired": "false"
-        },
-        "defaultgroup": {
-          "name": "defaultgroup",
-          "type": "boolean",
-          "description": "是否默认组",
-          "isRequired": "true"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "id": {
-              "name": "id",
-              "type": "number",
-              "description": "新建组的id"
-            },
-            "description": {
-              "name": "description",
-              "type": "string",
-              "description": "组描述"
-            },
-            "name": {
-              "name": "name",
-              "type": "string",
-              "description": "组名"
-            },
-            "defaultgroup": {
-              "name": "defaultgroup",
-              "type": "boolean",
-              "description": "是否默认组"
+      "put": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Update an existing pet",
+        "description": "",
+        "operationId": "updatePet",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pet object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pet"
             }
           }
-        }
-      },
-      "gmt_create": "2017-09-20T02:59:43.034Z",
-      "gmt_modified": "2017-09-20T02:59:43.034Z",
-      "project_id": 1
-    }, {
-      "id": 34,
-      "path": "/author/group/addGroupCheckId",
-      "description": "创建组时验证名称是否有效",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "group": {
-          "name": "group",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "组名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pet not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
         },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-20T03:03:49.191Z",
-      "gmt_modified": "2017-09-20T03:03:49.191Z",
-      "project_id": 1
-    }, {
-      "id": 35,
-      "path": "/author/group/deleteGroup",
-      "description": "对于超级管理员；删除组，管理员，删除自己管理的组",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "group": {
-          "name": "group",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "组名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-20T03:05:42.049Z",
-      "gmt_modified": "2017-09-20T03:05:42.049Z",
-      "project_id": 1
-    }, {
-      "id": 44,
-      "path": "/author/group/getNotUser",
-      "description": "获取非当前组的用户",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "group": {
-          "name": "group",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "组名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "name": {
-              "name": "name",
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/pet/findByStatus": {
+      "get": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Finds Pets by status",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "findPetsByStatus",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status values that need to be considered for filter",
+            "required": true,
+            "type": "array",
+            "items": {
               "type": "string",
-              "description": "用户名"
+              "enum": [
+                "available",
+                "pending",
+                "sold"
+              ],
+              "default": "available"
             },
-            "fullname": {
-              "name": "fullname",
-              "type": "string",
-              "description": "全名"
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/pet/findByTags": {
+      "get": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Finds Pets by tags",
+        "description": "Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing.",
+        "operationId": "findPetsByTags",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Tags to filter by",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
             },
-            "role": {
-              "name": "role",
-              "type": "number",
-              "description": "角色编号"
-            },
-            "rolename": {
-              "name": "rolename",
-              "type": "string",
-              "description": "角色"
-            },
-            "gid": {
-              "name": "gid",
-              "type": "number",
-              "description": "对应ldap的gid"
-            },
-            "mail": {
-              "name": "mail",
-              "type": "string",
-              "description": "邮箱"
-            },
-            "group": {
-              "name": "group",
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid tag value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ],
+        "deprecated": true
+      }
+    },
+    "/pet/{petId}": {
+      "get": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Find pet by ID",
+        "description": "Returns a single pet",
+        "operationId": "getPetById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "ID of pet to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pet not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Updates a pet in the store with form data",
+        "description": "",
+        "operationId": "updatePetWithForm",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "ID of pet that needs to be updated",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Updated name of the pet",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "Updated status of the pet",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Deletes a pet",
+        "description": "",
+        "operationId": "deletePet",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "Pet id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pet not found"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/pet/{petId}/uploadImage": {
+      "post": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "uploads an image",
+        "description": "",
+        "operationId": "uploadFile",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "ID of pet to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "additionalMetadata",
+            "in": "formData",
+            "description": "Additional data to pass to server",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "file to upload",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/store/inventory": {
+      "get": {
+        "tags": [
+          "store"
+        ],
+        "summary": "Returns pet inventories by status",
+        "description": "Returns a map of status codes to quantities",
+        "operationId": "getInventory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
               "type": "object",
-              "description": "",
-              "properties": {
-                "id": {
-                  "name": "id",
-                  "type": "number",
-                  "description": "组id"
-                },
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "组名"
-                },
-                "defaultgroup": {
-                  "name": "defaultgroup",
-                  "type": "boolean",
-                  "description": "组类型"
-                },
-                "description": {
-                  "name": "description",
-                  "type": "string",
-                  "description": "组描述"
-                }
+              "additionalProperties": {
+                "type": "integer",
+                "format": "int32"
               }
             }
           }
-        }
-      },
-      "gmt_create": "2017-09-25T02:24:47.058Z",
-      "gmt_modified": "2017-09-25T02:24:47.058Z",
-      "project_id": 1
-    }, {
-      "id": 43,
-      "path": "/author/group/getUser",
-      "description": "获取当前组的用户",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "group": {
-          "name": "group",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "组名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
         },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "name": {
-              "name": "name",
-              "type": "string",
-              "description": "用户名"
-            },
-            "fullname": {
-              "name": "fullname",
-              "type": "string",
-              "description": "全名"
-            },
-            "role": {
-              "name": "role",
-              "type": "number",
-              "description": "角色编号"
-            },
-            "rolename": {
-              "name": "rolename",
-              "type": "string",
-              "description": "角色"
-            },
-            "gid": {
-              "name": "gid",
-              "type": "number",
-              "description": "对应ldap的gid"
-            },
-            "mail": {
-              "name": "mail",
-              "type": "string",
-              "description": "邮箱"
-            },
-            "group": {
-              "name": "group",
-              "type": "object",
-              "description": "",
-              "properties": {
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "组名"
-                },
-                "id": {
-                  "name": "id",
-                  "type": "string",
-                  "description": "组id"
-                },
-                "description": {
-                  "name": "description",
-                  "type": "string",
-                  "description": "组描述"
-                },
-                "defaultgroup": {
-                  "name": "defaultgroup",
-                  "type": "boolean",
-                  "description": "是否默认组"
-                }
-              }
-            },
-            "lastAccessTime": {
-              "name": "lastAccessTime",
-              "type": "string",
-              "description": ""
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/store/order": {
+      "post": {
+        "tags": [
+          "store"
+        ],
+        "summary": "Place an order for a pet",
+        "description": "",
+        "operationId": "placeOrder",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "order placed for purchasing the pet",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Order"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          "400": {
+            "description": "Invalid Order"
+          }
+        }
+      }
+    },
+    "/store/order/{orderId}": {
+      "get": {
+        "tags": [
+          "store"
+        ],
+        "summary": "Find purchase order by ID",
+        "description": "For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions",
+        "operationId": "getOrderById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID of pet that needs to be fetched",
+            "required": true,
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Order not found"
           }
         }
       },
-      "gmt_create": "2017-09-25T02:02:38.586Z",
-      "gmt_modified": "2017-09-25T02:11:38.271Z",
-      "project_id": 1
-    }, {
-      "id": 36,
-      "path": "/author/group/modGroup",
-      "description": "修改组信息",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
+      "delete": {
+        "tags": [
+          "store"
+        ],
+        "summary": "Delete purchase order by ID",
+        "description": "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors",
+        "operationId": "deleteOrder",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID of the order that needs to be deleted",
+            "required": true,
+            "type": "integer",
+            "minimum": 1,
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/createWithArray": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Creates list of users with given input array",
+        "description": "",
+        "operationId": "createUsersWithArrayInput",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "List of user object",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/createWithList": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Creates list of users with given input array",
+        "description": "",
+        "operationId": "createUsersWithListInput",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "List of user object",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "loginUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The user name for login",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            },
+            "headers": {
+              "X-Rate-Limit": {
+                "type": "integer",
+                "format": "int32",
+                "description": "calls per hour allowed by the user"
+              },
+              "X-Expires-After": {
+                "type": "string",
+                "format": "date-time",
+                "description": "date in UTC when token expires"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs out current logged in user session",
+        "description": "",
+        "operationId": "logoutUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/{username}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get user by user name",
+        "description": "",
+        "operationId": "getUserByName",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Updated user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "deleteUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be deleted",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Order": {
+      "type": "object",
+      "properties": {
         "id": {
-          "name": "id",
-          "type": "number",
-          "isRequired": "true",
-          "default": "",
-          "description": "组id"
+          "type": "integer",
+          "format": "int64"
         },
-        "group": {
-          "name": "group",
+        "petId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "shipDate": {
           "type": "string",
-          "description": "组名",
-          "isRequired": "true"
+          "format": "date-time"
         },
-        "description": {
-          "name": "description",
+        "status": {
           "type": "string",
-          "description": "组描述",
-          "isRequired": "true"
+          "description": "Order Status",
+          "enum": [
+            "placed",
+            "approved",
+            "delivered"
+          ]
         },
-        "defaultgroup": {
-          "name": "defaultgroup",
+        "complete": {
           "type": "boolean",
-          "description": "是否默认组",
-          "isRequired": "true"
+          "default": false
+        }
+      },
+      "xml": {
+        "name": "Order"
+      }
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
         },
-        "user": {
-          "name": "user",
-          "type": "string",
-          "description": "组中的用户",
-          "isRequired": "true"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-20T03:09:18.852Z",
-      "gmt_modified": "2017-09-20T03:09:18.852Z",
-      "project_id": 1
-    }, {
-      "id": 3,
-      "path": "/author/groups",
-      "description": "获取用户组。对于超级管理员，返回所有的用户组；对于二级管理员，返回其管辖的用户组；对于普通用户，返回其所属的组",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "id": {
-              "name": "id",
-              "type": "number",
-              "description": "用户组 id"
-            },
-            "privilege": {
-              "name": "privilege",
-              "type": "number",
-              "description": "权限等级"
-            },
-            "user": {
-              "name": "user",
-              "type": "object",
-              "description": "用户对象",
-              "properties": {
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "用户名"
-                },
-                "role": {
-                  "name": "role",
-                  "type": "string",
-                  "description": "角色"
-                },
-                "rolename": {
-                  "name": "rolename",
-                  "type": "string",
-                  "description": "角色名称"
-                },
-                "fullname": {
-                  "name": "fullname",
-                  "type": "string",
-                  "description": "全名"
-                },
-                "mail": {
-                  "name": "mail",
-                  "type": "string",
-                  "description": "邮箱"
-                },
-                "gid": {
-                  "name": "gid",
-                  "type": "string",
-                  "description": "对应 ldap 的 gid"
-                }
-              }
-            },
-            "group": {
-              "name": "group",
-              "type": "object",
-              "description": "用户组对象",
-              "properties": {
-                "defaultGroup": {
-                  "name": "defaultGroup",
-                  "type": "boolean",
-                  "description": "是否默认组"
-                },
-                "description": {
-                  "name": "description",
-                  "type": "string",
-                  "description": "说明"
-                },
-                "id": {
-                  "name": "id",
-                  "type": "string",
-                  "description": "用户组 id"
-                },
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "用户组名称"
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-08-30T01:58:54.751Z",
-      "gmt_modified": "2017-09-18T09:18:37.283Z",
-      "project_id": 1
-    }, {
-      "id": 41,
-      "path": "/author/manager/getDefaultGroup",
-      "description": "获取当前manager所管理的default组，（当前管理员有权限的组）",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "当前登录用户",
-          "description": "用户名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "id": {
-              "name": "id",
-              "type": "number",
-              "description": "组id"
-            },
-            "name": {
-              "name": "name",
-              "type": "string",
-              "description": "组名"
-            },
-            "defaultgroup": {
-              "name": "defaultgroup",
-              "type": "boolean",
-              "description": "是否默认组"
-            },
-            "description": {
-              "name": "description",
-              "type": "string",
-              "description": "组描述"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-22T10:57:55.107Z",
-      "gmt_modified": "2017-09-22T10:57:55.107Z",
-      "project_id": 1
-    }, {
-      "id": 13,
-      "path": "/author/privilege/group",
-      "description": "获取用户组列表",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "isRequired": "false",
-          "default": "",
-          "description": "成功或失败的代码\t",
-          "type": "number"
-        },
-        "info": {
-          "name": "info",
-          "isRequired": "false",
-          "default": "",
-          "description": "失败的描述信息\t",
-          "type": "string"
-        },
-        "data": {
-          "name": "data",
-          "isRequired": "false",
-          "default": "",
-          "description": "返回的数据实体\t",
-          "type": "array[object]",
-          "properties": {
-            "pritest": {
-              "name": "pritest",
-              "isRequired": "false",
-              "default": "",
-              "description": "资源",
-              "type": "object",
-              "properties": {
-                "role": {
-                  "name": "role",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "角色",
-                  "type": "object",
-                  "properties": {
-                    "roles": {
-                      "name": "roles",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "权限，如 [\"CREAT\", \"WRITE\"]",
-                      "type": "array[string]",
-                      "properties": {
-                        "0": {
-                          "name": "0",
-                          "isRequired": "false",
-                          "default": "",
-                          "description": "",
-                          "type": "string"
-                        },
-                        "1": {
-                          "name": "1",
-                          "isRequired": "false",
-                          "default": "",
-                          "description": "",
-                          "type": "string"
-                        },
-                        "2": {
-                          "name": "2",
-                          "isRequired": "false",
-                          "default": "",
-                          "description": "",
-                          "type": "string"
-                        },
-                        "3": {
-                          "name": "3",
-                          "isRequired": "false",
-                          "default": "",
-                          "description": "",
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "name": {
-                      "name": "name",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "角色名称",
-                      "type": "string"
-                    },
-                    "privilege": {
-                      "name": "privilege",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "number"
-                    }
-                  }
-                },
-                "resource": {
-                  "name": "resource",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "资源",
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "name": "id",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "资源 id",
-                      "type": "string"
-                    },
-                    "type": {
-                      "name": "type",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "资源类型",
-                      "type": "string"
-                    },
-                    "obj": {
-                      "name": "obj",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    }
-                  }
-                },
-                "group": {
-                  "name": "group",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "用户组",
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "name": "id",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "用户组 id",
-                      "type": "number"
-                    },
-                    "description": {
-                      "name": "description",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "描述",
-                      "type": "string"
-                    },
-                    "name": {
-                      "name": "name",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "用户组名称",
-                      "type": "string"
-                    },
-                    "defaultgroup": {
-                      "name": "defaultgroup",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "是否默认用户组",
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-07T08:16:08.090Z",
-      "gmt_modified": "2017-09-07T08:16:08.090Z",
-      "project_id": 1
-    }, {
-      "id": 15,
-      "path": "/author/privilege/resources",
-      "description": "获取资源列表",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "isRequired": "false",
-          "default": "",
-          "description": "",
-          "type": "number"
-        },
-        "info": {
-          "name": "info",
-          "isRequired": "false",
-          "default": "",
-          "description": "",
-          "type": "string"
-        },
-        "data": {
-          "name": "data",
-          "isRequired": "false",
-          "default": "",
-          "description": "",
-          "type": "object",
-          "properties": {
-            "web": {
-              "name": "web",
-              "type": "array[object]",
-              "description": "",
-              "properties": {
-                "id": {
-                  "name": "id",
-                  "type": "string",
-                  "description": "资源 id"
-                },
-                "type": {
-                  "name": "type",
-                  "type": "string",
-                  "description": "资源类型，如 web.azkaban、web.bigdata"
-                },
-                "obj": {
-                  "name": "obj",
-                  "type": "string",
-                  "description": "辅助说明信息"
-                }
-              }
-            },
-            "hive": {
-              "name": "hive",
-              "type": "array[object]",
-              "description": "",
-              "properties": {
-                "id": {
-                  "name": "id",
-                  "type": "string",
-                  "description": "资源 id"
-                },
-                "type": {
-                  "name": "type",
-                  "type": "string",
-                  "description": "资源类型，如 hive.db、hive.uri"
-                },
-                "obj": {
-                  "name": "obj",
-                  "type": "string",
-                  "description": "辅助说明信息"
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-07T08:23:28.574Z",
-      "gmt_modified": "2017-09-19T07:20:14.001Z",
-      "project_id": 1
-    }, {
-      "id": 12,
-      "path": "/author/privilege/role",
-      "description": "获取角色列表",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "isRequired": "false",
-          "default": "",
-          "description": "成功或失败的代码",
-          "type": "number"
-        },
-        "info": {
-          "name": "info",
-          "isRequired": "false",
-          "default": "",
-          "description": "失败的描述信息",
-          "type": "string"
-        },
-        "data": {
-          "name": "data",
-          "isRequired": "false",
-          "default": "",
-          "description": "返回的数据实体",
-          "type": "array[object]",
-          "properties": {
-            "roleName": {
-              "name": "roleName",
-              "isRequired": "false",
-              "default": "",
-              "description": "角色名称",
-              "type": "string"
-            },
-            "resources": {
-              "name": "resources",
-              "isRequired": "false",
-              "default": "",
-              "description": "资源",
-              "type": "array[object]",
-              "properties": {
-                "id": {
-                  "name": "id",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "资源id",
-                  "type": "string"
-                },
-                "type": {
-                  "name": "type",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "资源类型，如 web.azkaban、hive.db",
-                  "type": "string"
-                },
-                "obj": {
-                  "name": "obj",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "string"
-                }
-              }
-            },
-            "privileges": {
-              "name": "privileges",
-              "isRequired": "false",
-              "default": "",
-              "description": "权限，如 [\"READ\", \"WRITE\"]",
-              "type": "array[string]",
-              "properties": {
-                "0": {
-                  "name": "0",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "string"
-                },
-                "1": {
-                  "name": "1",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "string"
-                },
-                "2": {
-                  "name": "2",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "string"
-                },
-                "3": {
-                  "name": "3",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "string"
-                }
-              }
-            },
-            "type": {
-              "name": "type",
-              "type": "string",
-              "description": "角色类型，如 web.bigdata、web.azkaban、hive.db"
-            },
-            "groups": {
-              "name": "groups",
-              "type": "array[string]",
-              "description": "角色对应的组"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-07T08:11:19.503Z",
-      "gmt_modified": "2017-09-12T09:11:10.951Z",
-      "project_id": 1
-    }, {
-      "id": 14,
-      "path": "/author/privilege/user",
-      "description": "获取用户列表",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "isRequired": "false",
-          "default": "",
-          "description": "成功或失败的代码",
-          "type": "number"
-        },
-        "info": {
-          "name": "info",
-          "isRequired": "false",
-          "default": "",
-          "description": "失败的描述信息",
-          "type": "string"
-        },
-        "data": {
-          "name": "data",
-          "isRequired": "false",
-          "default": "",
-          "description": "返回的数据实体",
-          "type": "array[object]",
-          "properties": {
-            "testpri": {
-              "name": "testpri",
-              "isRequired": "false",
-              "default": "",
-              "description": "资源",
-              "type": "object",
-              "properties": {
-                "role": {
-                  "name": "role",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "roles": {
-                      "name": "roles",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "array[string]",
-                      "properties": {}
-                    },
-                    "name": {
-                      "name": "name",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    },
-                    "privilege": {
-                      "name": "privilege",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "number"
-                    }
-                  }
-                },
-                "resource": {
-                  "name": "resource",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "name": "id",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    },
-                    "type": {
-                      "name": "type",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    },
-                    "obj": {
-                      "name": "obj",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "number"
-                    }
-                  }
-                },
-                "user": {
-                  "name": "user",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "name": "name",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    },
-                    "role": {
-                      "name": "role",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "number"
-                    },
-                    "rolename": {
-                      "name": "rolename",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    },
-                    "fullname": {
-                      "name": "fullname",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    },
-                    "mail": {
-                      "name": "mail",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    },
-                    "gid": {
-                      "name": "gid",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "number"
-                    },
-                    "group": {
-                      "name": "group",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "name": "id",
-                          "isRequired": "false",
-                          "default": "",
-                          "description": "",
-                          "type": "number"
-                        },
-                        "description": {
-                          "name": "description",
-                          "isRequired": "false",
-                          "default": "",
-                          "description": "",
-                          "type": "string"
-                        },
-                        "name": {
-                          "name": "name",
-                          "isRequired": "false",
-                          "default": "",
-                          "description": "",
-                          "type": "string"
-                        },
-                        "defaultgroup": {
-                          "name": "defaultgroup",
-                          "isRequired": "false",
-                          "default": "",
-                          "description": "",
-                          "type": "boolean"
-                        }
-                      }
-                    }
-                  }
-                },
-                "group": {
-                  "name": "group",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "name": "id",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "number"
-                    },
-                    "description": {
-                      "name": "description",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    },
-                    "name": {
-                      "name": "name",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "string"
-                    },
-                    "defaultgroup": {
-                      "name": "defaultgroup",
-                      "isRequired": "false",
-                      "default": "",
-                      "description": "",
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-07T08:19:38.510Z",
-      "gmt_modified": "2017-09-07T08:19:38.510Z",
-      "project_id": 1
-    }, {
-      "id": 31,
-      "path": "/author/task",
-      "description": "获取 任务列表",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "ajax": {
-          "name": "ajax",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "个人ajax=fetchuserprojects；  组:ajax=fetchgroupprojects"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "createdBy": {
-              "name": "createdBy",
-              "type": "string",
-              "description": "创建者"
-            },
-            "createdTime": {
-              "name": "createdTime",
-              "type": "number",
-              "description": "创建时间（时间戳）"
-            },
-            "lastModifiedUser": {
-              "name": "lastModifiedUser",
-              "type": "string",
-              "description": "最近修改者"
-            },
-            "lastModifiedTimestamp": {
-              "name": "lastModifiedTimestamp",
-              "type": "number",
-              "description": "最近修改时间（时间戳）"
-            },
-            "description": {
-              "name": "description",
-              "type": "string",
-              "description": "项目描述"
-            },
-            "projectName": {
-              "name": "projectName",
-              "type": "string",
-              "description": "项目名称"
-            },
-            "projectId": {
-              "name": "projectId",
-              "type": "number",
-              "description": "ID"
-            },
-            "url": {
-              "name": "url",
-              "type": "string",
-              "description": "点击项目名时跳转的链接"
-            },
-            "userPermissions": {
-              "name": "userPermissions",
-              "type": "array[object]",
-              "description": "",
-              "properties": {
-                "first": {
-                  "name": "first",
-                  "type": "string",
-                  "description": ""
-                },
-                "second": {
-                  "name": "second",
-                  "type": "string",
-                  "description": ""
-                }
-              }
-            },
-            "groupPermissions": {
-              "name": "groupPermissions",
-              "type": "array[object]",
-              "description": "",
-              "properties": {
-                "first": {
-                  "name": "first",
-                  "type": "string",
-                  "description": ""
-                },
-                "second": {
-                  "name": "second",
-                  "type": "string",
-                  "description": ""
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-18T07:30:34.077Z",
-      "gmt_modified": "2017-09-18T09:03:38.417Z",
-      "project_id": 1
-    }, {
-      "id": 51,
-      "path": "/author/user/addBoss",
-      "description": "超级管理员添加一个boss用户",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "用户名"
-        },
-        "password": {
-          "name": "password",
-          "type": "string",
-          "description": "密码",
-          "isRequired": "true"
-        },
-        "fullname": {
-          "name": "fullname",
-          "type": "string",
-          "description": "全名",
-          "isRequired": "true"
-        },
-        "mail": {
-          "name": "mail",
-          "type": "string",
-          "description": "邮箱",
-          "isRequired": "true"
-        },
-        "role": {
-          "name": "role",
-          "type": "number",
-          "description": "角色编号：1代表只读用户",
-          "isRequired": "true",
-          "default": "1"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-28T01:33:57.132Z",
-      "gmt_modified": "2017-09-28T06:27:11.525Z",
-      "project_id": 1
-    }, {
-      "id": 37,
-      "path": "/author/user/addUser",
-      "description": "新建用户",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "用户名"
-        },
-        "password": {
-          "name": "password",
-          "type": "string",
-          "description": "初始密码",
-          "isRequired": "false"
-        },
-        "fullname": {
-          "name": "fullname",
-          "type": "string",
-          "description": "全名",
-          "isRequired": "true"
-        },
-        "mail": {
-          "name": "mail",
-          "type": "string",
-          "description": "邮箱",
-          "isRequired": "true"
-        },
-        "group": {
-          "name": "group",
-          "type": "string",
-          "description": "默认组",
-          "isRequired": "true"
-        },
-        "role": {
-          "name": "role",
-          "type": "string",
-          "description": "角色编号",
-          "isRequired": "true"
-        },
-        "groups": {
-          "name": "groups",
-          "type": "string",
-          "description": "用户组",
-          "isRequired": "true"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-22T10:40:42.984Z",
-      "gmt_modified": "2017-09-22T10:40:42.984Z",
-      "project_id": 1
-    }, {
-      "id": 42,
-      "path": "/author/user/addUserCheckId",
-      "description": "添加用户时验证名称是否有效",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "用户名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "number",
-          "description": "成功或失败的代码(0成功，非0失败)"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-22T10:59:32.268Z",
-      "gmt_modified": "2017-09-22T10:59:57.558Z",
-      "project_id": 1
-    }, {
-      "id": 52,
-      "path": "/author/user/delBoss",
-      "description": "超级管理员删除一个boss用户",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "用户名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-28T06:33:28.275Z",
-      "gmt_modified": "2017-09-28T06:33:28.275Z",
-      "project_id": 1
-    }, {
-      "id": 50,
-      "path": "/author/user/deleteUser",
-      "description": "管理员删除用户",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "用户名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-28T01:28:44.108Z",
-      "gmt_modified": "2017-09-28T01:28:44.108Z",
-      "project_id": 1
-    }, {
-      "id": 39,
-      "path": "/author/user/getGroup",
-      "description": "获取指定用户的组信息",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "用户名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "id": {
-              "name": "id",
-              "type": "number",
-              "description": "组id"
-            },
-            "privilege": {
-              "name": "privilege",
-              "type": "number",
-              "description": "权限"
-            },
-            "group": {
-              "name": "group",
-              "type": "object",
-              "description": "组",
-              "properties": {
-                "id": {
-                  "name": "id",
-                  "type": "number",
-                  "description": "组id"
-                },
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "组名"
-                },
-                "description": {
-                  "name": "description",
-                  "type": "string",
-                  "description": "组描述"
-                },
-                "defaultgroup": {
-                  "name": "defaultgroup",
-                  "type": "boolean",
-                  "description": "是否默认组"
-                }
-              }
-            },
-            "user": {
-              "name": "user",
-              "type": "object",
-              "description": "用户",
-              "properties": {
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "用户名"
-                },
-                "fullname": {
-                  "name": "fullname",
-                  "type": "string",
-                  "description": "全名"
-                },
-                "mail": {
-                  "name": "mail",
-                  "type": "string",
-                  "description": "邮箱"
-                },
-                "role": {
-                  "name": "role",
-                  "type": "number",
-                  "description": "角色编号"
-                },
-                "rolename": {
-                  "name": "rolename",
-                  "type": "string",
-                  "description": "角色名"
-                },
-                "group": {
-                  "name": "group",
-                  "type": "object",
-                  "description": "",
-                  "properties": {}
-                },
-                "lastAccessTime": {
-                  "name": "lastAccessTime",
-                  "type": "string",
-                  "description": ""
-                },
-                "gid": {
-                  "name": "gid",
-                  "type": "number",
-                  "description": ""
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-22T10:52:20.106Z",
-      "gmt_modified": "2017-09-22T10:52:20.106Z",
-      "project_id": 1
-    }, {
-      "id": 40,
-      "path": "/author/user/getNotGroup",
-      "description": "获取指定用户没有加入的组，（当前管理员有权限的组）",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "当前指定用户名"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "id": {
-              "name": "id",
-              "type": "string",
-              "description": "组id"
-            },
-            "name": {
-              "name": "name",
-              "type": "string",
-              "description": "组名"
-            },
-            "defaultgroup": {
-              "name": "defaultgroup",
-              "type": "boolean",
-              "description": "是否默认组"
-            },
-            "description": {
-              "name": "description",
-              "type": "string",
-              "description": "组描述"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-22T10:55:28.089Z",
-      "gmt_modified": "2017-09-25T02:10:15.099Z",
-      "project_id": 1
-    }, {
-      "id": 38,
-      "path": "/author/user/modUser",
-      "description": "编辑用户",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "当前用户名",
-          "description": "用户名"
-        },
-        "fullname": {
-          "name": "fullname",
-          "type": "string",
-          "description": "全名",
-          "isRequired": "true",
-          "default": "当前用户全名"
-        },
-        "mail": {
-          "name": "mail",
-          "type": "string",
-          "description": "邮箱",
-          "isRequired": "true",
-          "default": "当前用户邮箱"
-        },
-        "group": {
-          "name": "group",
-          "type": "string",
-          "description": "默认组",
-          "isRequired": "true",
-          "default": "当前用户默认组"
-        },
-        "groups": {
-          "name": "groups",
-          "type": "string",
-          "description": "用户组",
-          "isRequired": "true",
-          "default": "当前用户组"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-22T10:46:16.642Z",
-      "gmt_modified": "2017-09-22T10:46:16.642Z",
-      "project_id": 1
-    }, {
-      "id": 32,
-      "path": "/author/users",
-      "description": "显示某个管理员下属的所有user，如果是超级管理员，则显示全部",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "name": {
-              "name": "name",
-              "type": "string",
-              "description": "用户名"
-            },
-            "role": {
-              "name": "role",
-              "type": "number",
-              "description": "角色编号"
-            },
-            "fullname": {
-              "name": "fullname",
-              "type": "string",
-              "description": "全名"
-            },
-            "mail": {
-              "name": "mail",
-              "type": "string",
-              "description": "邮箱"
-            },
-            "gid": {
-              "name": "gid",
-              "type": "number",
-              "description": "对应ldap的gid"
-            },
-            "group": {
-              "name": "group",
-              "type": "object",
-              "description": "",
-              "properties": {
-                "id": {
-                  "name": "id",
-                  "type": "number",
-                  "description": "组id"
-                },
-                "description": {
-                  "name": "description",
-                  "type": "string",
-                  "description": "组描述"
-                },
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "组名"
-                },
-                "defaultgroup": {
-                  "name": "defaultgroup",
-                  "type": "boolean",
-                  "description": "是否默认组"
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-18T09:20:50.971Z",
-      "gmt_modified": "2017-09-18T09:24:59.451Z",
-      "project_id": 1
-    }, {
-      "id": 1,
-      "path": "/entry/login",
-      "description": "用户登录",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "username": {
-          "name": "username",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "用户名"
-        },
-        "password": {
-          "name": "password",
-          "type": "string",
-          "description": "密码",
-          "isRequired": "true"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "token": {
-              "name": "token",
-              "type": "string",
-              "description": "登录成功后生成的 token"
-            },
-            "role": {
-              "name": "role",
-              "type": "string",
-              "description": "登录用户的角色"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-08-30T01:49:02.141Z",
-      "gmt_modified": "2017-08-30T01:49:02.141Z",
-      "project_id": 1
-    }, {
-      "id": 2,
-      "path": "/entry/logout",
-      "description": "用户登出",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-08-30T01:51:17.551Z",
-      "gmt_modified": "2017-08-30T01:51:17.551Z",
-      "project_id": 1
-    }, {
-      "id": 45,
-      "path": "/lineage/databases",
-      "description": "从neo4j里获取db和table",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "Authorization": {
-          "name": "Authorization",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": ""
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "databases": {
-              "name": "databases",
-              "type": "array[object]",
-              "description": "neo4j里的database信息",
-              "properties": {
-                "tables": {
-                  "name": "tables",
-                  "type": "array[string]",
-                  "description": "db包含的表",
-                  "properties": {}
-                },
-                "dbId": {
-                  "name": "dbId",
-                  "type": "string",
-                  "description": "database的id"
-                },
-                "desc": {
-                  "name": "desc",
-                  "type": "string",
-                  "description": "数据库描述"
-                },
-                "dbLocationUri": {
-                  "name": "dbLocationUri",
-                  "type": "string",
-                  "description": "数据库地址"
-                },
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "数据库名称"
-                },
-                "ownerName": {
-                  "name": "ownerName",
-                  "type": "string",
-                  "description": "数据库owner"
-                },
-                "ownerType": {
-                  "name": "ownerType",
-                  "type": "string",
-                  "description": "owner类型"
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-25T05:24:49.436Z",
-      "gmt_modified": "2017-09-25T05:26:10.322Z",
-      "project_id": 1
-    }, {
-      "id": 5,
-      "path": "/lineage/table",
-      "description": "获取需要查询的表血缘关系",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "table": {
-          "name": "table",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "需要查询的表名"
-        },
-        "database": {
-          "name": "database",
-          "type": "string",
-          "description": "需要查询的数据库名",
-          "isRequired": "true"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "lineages": {
-              "name": "lineages",
-              "type": "array[object]",
-              "description": "血缘关系的实体",
-              "properties": {
-                "id": {
-                  "name": "id",
-                  "type": "number",
-                  "description": "表的 id"
-                },
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "表名"
-                },
-                "tables": {
-                  "name": "tables",
-                  "type": "array[string]",
-                  "description": "上一级血缘表的 id"
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-08-30T09:05:24.302Z",
-      "gmt_modified": "2017-09-05T09:32:17.360Z",
-      "project_id": 1
-    }, {
-      "id": 6,
-      "path": "/metadata/hive/databases",
-      "description": "获取所有的 database",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "databases": {
-              "name": "databases",
-              "type": "array[object]",
-              "description": "数据库对象的实体结构",
-              "properties": {
-                "dbId": {
-                  "name": "dbId",
-                  "type": "number",
-                  "description": "数据库 id"
-                },
-                "desc": {
-                  "name": "desc",
-                  "type": "string",
-                  "description": "描述信息"
-                },
-                "name": {
-                  "name": "name",
-                  "type": "string",
-                  "description": "数据库名"
-                },
-                "tables": {
-                  "name": "tables",
-                  "type": "array[string]",
-                  "description": "包含的数据库表"
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-08-30T09:23:58.743Z",
-      "gmt_modified": "2017-08-30T09:23:58.743Z",
-      "project_id": 1
-    }, {
-      "id": 7,
-      "path": "/metadata/hive/table",
-      "description": "返回某个表的信息，包括表属性信息及列信息",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "tablename": {
-          "name": "tablename",
-          "type": "string",
-          "isRequired": "false",
-          "default": "",
-          "description": "表名"
-        },
-        "database": {
-          "name": "database",
-          "type": "string",
-          "description": "数据库名",
-          "isRequired": "true"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "name": {
-              "name": "name",
-              "type": "string",
-              "description": ""
-            },
-            "createTime": {
-              "name": "createTime",
-              "type": "string",
-              "description": ""
-            },
-            "database": {
-              "name": "database",
-              "type": "string",
-              "description": ""
-            },
-            "lastAccessTime": {
-              "name": "lastAccessTime",
-              "type": "string",
-              "description": ""
-            },
-            "owner": {
-              "name": "owner",
-              "type": "string",
-              "description": ""
-            },
-            "inputFormat": {
-              "name": "inputFormat",
-              "type": "string",
-              "description": ""
-            },
-            "isCompressed": {
-              "name": "isCompressed",
-              "type": "boolean",
-              "description": ""
-            },
-            "isStoredAsSubDirectories": {
-              "name": "isStoredAsSubDirectories",
-              "type": "boolean",
-              "description": ""
-            },
-            "location": {
-              "name": "location",
-              "type": "string",
-              "description": ""
-            },
-            "numBuckets": {
-              "name": "numBuckets",
-              "type": "number",
-              "description": ""
-            },
-            "outputFormat": {
-              "name": "outputFormat",
-              "type": "string",
-              "description": ""
-            },
-            "serde": {
-              "name": "serde",
-              "type": "string",
-              "description": ""
-            },
-            "compressed": {
-              "name": "compressed",
-              "type": "boolean",
-              "description": ""
-            },
-            "storedAsSubDirectories": {
-              "name": "storedAsSubDirectories",
-              "type": "boolean",
-              "description": ""
-            },
-            "columns": {
-              "name": "columns",
-              "type": "array[object]",
-              "description": "",
-              "properties": {
-                "columnName": {
-                  "name": "columnName",
-                  "type": "string",
-                  "description": ""
-                },
-                "typeName": {
-                  "name": "typeName",
-                  "type": "string",
-                  "description": ""
-                },
-                "comment": {
-                  "name": "comment",
-                  "type": "string",
-                  "description": ""
-                }
-              }
-            },
-            "tblId": {
-              "name": "tblId",
-              "type": "number",
-              "description": ""
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-01T03:07:43.854Z",
-      "gmt_modified": "2017-09-04T10:20:17.451Z",
-      "project_id": 1
-    }, {
-      "id": 8,
-      "path": "/metadata/kafka/topics",
-      "description": "获取指定kafka集群中的主题名",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "type": {
-          "name": "type",
-          "type": "number",
-          "isRequired": "true",
-          "default": "",
-          "description": "集群类型。type 为 1 是准实时集群，type 为 2 是实时集群；type 为 0 是自定义集群"
-        },
-        "zkurl": {
-          "name": "zkurl",
-          "type": "string",
-          "description": "type 为 0 时需要指定 zkurl",
-          "isRequired": "false"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "topics": {
-              "name": "topics",
-              "type": "array[string]",
-              "description": "主题名"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-01T03:11:25.761Z",
-      "gmt_modified": "2017-09-01T03:11:25.761Z",
-      "project_id": 1
-    }, {
-      "id": 30,
-      "path": "/sentry/allGroups",
-      "description": "获组所有sentry组",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[string]",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-18T07:09:44.198Z",
-      "gmt_modified": "2017-09-18T07:09:44.198Z",
-      "project_id": 1
-    }, {
-      "id": 24,
-      "path": "/sentry/databases",
-      "description": "获取所有数据库资源",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "number",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "成功或失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[string]",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-14T00:58:02.872Z",
-      "gmt_modified": "2017-09-14T01:02:02.884Z",
-      "project_id": 1
-    }, {
-      "id": 26,
-      "path": "/sentry/role",
-      "description": "创建角色及其对应权限，并给该角色授予组",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "roleName": {
-          "name": "roleName",
-          "type": "string",
-          "isRequired": "true",
-          "default": "无",
-          "description": "\"roleName\" : \"zyf\""
-        },
-        "type": {
-          "name": "type",
-          "type": "string",
-          "description": "\"type\" : \"hive.db\"",
-          "isRequired": "true",
-          "default": "无"
-        },
-        "groups": {
-          "name": "groups",
-          "type": "string",
-          "description": "\"groups\" : \"hive\", \"idc_infrastructure_group\"",
-          "isRequired": "true",
-          "default": "无"
-        },
-        "resources": {
-          "name": "resources",
-          "type": "string",
-          "description": "\"resources\":\"guoting_db1\", \"guoting_db\"",
-          "isRequired": "true",
-          "default": "无"
-        },
-        "privileges": {
-          "name": "privileges",
-          "type": "string",
-          "description": "\"all\"",
-          "isRequired": "true",
-          "default": "无"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "number",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-15T00:38:33.783Z",
-      "gmt_modified": "2017-09-19T06:05:42.559Z",
-      "project_id": 1
-    }, {
-      "id": 29,
-      "path": "/sentry/role",
-      "description": "删除角色",
-      "scheme": "http",
-      "method": "DELETE",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "roleName": {
-          "name": "roleName",
-          "type": "string",
-          "isRequired": "true",
-          "default": "无",
-          "description": ""
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-18T06:46:47.380Z",
-      "gmt_modified": "2017-09-18T06:46:47.380Z",
-      "project_id": 1
-    }, {
-      "id": 28,
-      "path": "/sentry/role",
-      "description": "编辑角色及其对应权限，并该角色授予组",
-      "scheme": "http",
-      "method": "PUT",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "roleName": {
-          "name": "roleName",
-          "type": "string",
-          "isRequired": "true",
-          "default": "无",
-          "description": "\"roleName\" : \"zyf\""
-        },
-        "type": {
-          "name": "type",
-          "type": "string",
-          "description": "\"type\" : \"hive.db\"",
-          "default": "无",
-          "isRequired": "true"
-        },
-        "groups": {
-          "name": "groups",
-          "type": "string",
-          "description": "\"groups\" : \"hive\",\"idc_infrastructure_group\"",
-          "default": "无",
-          "isRequired": "true"
-        },
-        "resources": {
-          "name": "resources",
-          "type": "string",
-          "description": "\"resources\" : \"guoting_db1,\"guoting_db\"",
-          "default": "无",
-          "isRequired": "true"
-        },
-        "privileges": {
-          "name": "privileges",
-          "type": "string",
-          "description": "\"privileges\" : \"all\"",
-          "isRequired": "true",
-          "default": "无"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "number",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-18T03:37:30.054Z",
-      "gmt_modified": "2017-09-19T06:06:19.107Z",
-      "project_id": 1
-    }, {
-      "id": 20,
-      "path": "/sentry/roles",
-      "description": "获取所有角色对应的组、资源信息",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "isRequired": "false",
-          "default": "",
-          "description": "成功或失败的代码",
-          "type": "number"
-        },
-        "info": {
-          "name": "info",
-          "isRequired": "false",
-          "default": "",
-          "description": "失败的描述信息",
-          "type": "string"
-        },
-        "data": {
-          "name": "data",
-          "isRequired": "false",
-          "default": "",
-          "description": "返回的数据实体",
-          "type": "array[object]",
-          "properties": {
-            "roleName": {
-              "name": "roleName",
-              "isRequired": "false",
-              "default": "",
-              "description": "角色名称",
-              "type": "string"
-            },
-            "type": {
-              "name": "type",
-              "isRequired": "false",
-              "default": "",
-              "description": "角色类型，如 web.bigdata、web.azkaban、hive.db",
-              "type": "string"
-            },
-            "groups": {
-              "name": "groups",
-              "isRequired": "false",
-              "default": "",
-              "description": "角色对应的组",
-              "type": "array[string]",
-              "properties": {}
-            },
-            "resources": {
-              "name": "resources",
-              "isRequired": "false",
-              "default": "",
-              "description": "角色对应的资源",
-              "type": "array[object]",
-              "properties": {
-                "id": {
-                  "name": "id",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "资源 id",
-                  "type": "string"
-                },
-                "type": {
-                  "name": "type",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "资源类型，如 web.azkaban、hive.db",
-                  "type": "string"
-                },
-                "obj": {
-                  "name": "obj",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "object",
-                  "properties": {}
-                }
-              }
-            },
-            "privileges": {
-              "name": "privileges",
-              "isRequired": "false",
-              "default": "",
-              "description": "具体的权限类型，如 [\"CREATE\",\"SELECT\"]",
-              "type": "array[string]",
-              "properties": {
-                "0": {
-                  "name": "0",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "string"
-                },
-                "1": {
-                  "name": "1",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "string"
-                },
-                "2": {
-                  "name": "2",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "string"
-                },
-                "3": {
-                  "name": "3",
-                  "isRequired": "false",
-                  "default": "",
-                  "description": "",
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-08T05:37:39.528Z",
-      "gmt_modified": "2017-09-12T09:12:50.036Z",
-      "project_id": 1
-    }, {
-      "id": 25,
-      "path": "/sentry/uri",
-      "description": "获取所有URI资源",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "uri": {
-          "name": "uri",
-          "type": "string",
-          "description": "",
-          "isRequired": "true",
-          "default": "/"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "number",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[string]",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-14T06:41:56.308Z",
-      "gmt_modified": "2017-09-14T06:41:56.308Z",
-      "project_id": 1
-    }]
-  }, {
-    "id": 2,
-    "name": "BareMetal",
-    "description": "BareMetal Hadoop 自动部署",
-    "production": null,
-    "development": null,
-    "testing": null,
-    "gmt_create": "2017-09-04T02:06:45.427Z",
-    "gmt_modified": "2017-09-04T02:06:45.427Z",
-    "apis": [{
-      "id": 11,
-      "path": "/clusters",
-      "description": "获取集群的健康状态，根据entityStatus判读集群是否安装成功。",
-      "scheme": "websocket",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码 "
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "集群安装失败，请重试"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "result": {
-              "name": "result",
-              "type": "string",
-              "description": "集群安装完成，以下是详细信息"
-            },
-            "CM_host": {
-              "name": "CM_host",
-              "type": "string",
-              "description": "host 10.214.160.144:7180"
-            },
-            "CM_repository": {
-              "name": "CM_repository",
-              "type": "string",
-              "description": "repository http://10.214.160.144:/cm/"
-            },
-            "CDH_host": {
-              "name": "CDH_host",
-              "type": "string",
-              "description": "hosts 10.214.160.144,10.214.160.145"
-            },
-            "CDH_repository": {
-              "name": "CDH_repository",
-              "type": "string",
-              "description": "repository http://10.214.160.144:/cdh/"
-            },
-            "CDH_gateway": {
-              "name": "CDH_gateway",
-              "type": "string",
-              "description": "gateway 10.214.160.144,10.214.160.145"
-            },
-            "kerberos_host": {
-              "name": "kerberos_host",
-              "type": "string",
-              "description": "kdc_host 10.214.160.144:749"
-            },
-            "LDAP_url": {
-              "name": "LDAP_url",
-              "type": "string",
-              "description": "ldap://10.214.160.144:389"
-            },
-            "Nginx_server": {
-              "name": "Nginx_server",
-              "type": "string",
-              "description": "10.214.160.144:8008"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-04T02:23:35.515Z",
-      "gmt_modified": "2017-09-25T03:05:37.091Z",
-      "project_id": 2
-    }, {
-      "id": 9,
-      "path": "/deploy",
-      "description": "部署集群",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "masterkdc": {
-          "name": "masterkdc",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "Master KDC 的 IP"
-        },
-        "slavekdc": {
-          "name": "slavekdc",
-          "type": "string",
-          "description": "Slave KDC 的 IP",
-          "isRequired": "true"
-        },
-        "openldapserver1": {
-          "name": "openldapserver1",
-          "type": "string",
-          "description": "Openldap Server1 的 IP",
-          "isRequired": "true"
-        },
-        "openldapserver2": {
-          "name": "openldapserver2",
-          "type": "string",
-          "description": "Openldap Server2 的 IP",
-          "isRequired": "true"
-        },
-        "openldapserver3": {
-          "name": "openldapserver3",
-          "type": "string",
-          "description": "Openldap Server3 的 IP",
-          "isRequired": "true"
-        },
-        "nginxserver1": {
-          "name": "nginxserver1",
-          "type": "string",
-          "description": "Nginx Server1 的 IP",
-          "isRequired": "true"
-        },
-        "nginxserver2": {
-          "name": "nginxserver2",
-          "type": "string",
-          "description": "Nginx Server2 的 IP",
-          "isRequired": "true"
-        },
-        "version": {
-          "name": "version",
-          "type": "string",
-          "description": "CDH 版本 5.7 / 5.8 / 5.12",
-          "isRequired": "true"
-        },
-        "ipaddress": {
-          "name": "ipaddress",
-          "type": "string",
-          "description": "集群 IP，可以是一个范围如：10.199.192.[11-18]",
-          "isRequired": "true"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "number",
-          "description": "成功或失败的代码 -1表示有进程正在部署 0表示没有进程在部署"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-04T02:12:48.738Z",
-      "gmt_modified": "2017-09-14T09:27:42.968Z",
-      "project_id": 2
-    }, {
-      "id": 21,
-      "path": "/events",
-      "description": "查看部署日志",
-      "scheme": "websocket",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-08T07:57:52.479Z",
-      "gmt_modified": "2017-09-08T07:59:48.975Z",
-      "project_id": 2
-    }, {
-      "id": 10,
-      "path": "/revert",
-      "description": "回滚部署",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "number",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-04T02:14:20.172Z",
-      "gmt_modified": "2017-09-11T06:11:56.093Z",
-      "project_id": 2
-    }]
-  }, {
-    "id": 3,
-    "name": "运营报告",
-    "description": "运营报告项目。集群状态，CPU、存储、网络情况，超时任务 Top 10。",
-    "production": "http://10.213.128.86:8099",
-    "development": null,
-    "testing": null,
-    "gmt_create": "2017-09-07T09:14:10.345Z",
-    "gmt_modified": "2017-09-07T09:14:10.345Z",
-    "apis": [{
-      "id": 16,
-      "path": "/api/clusters",
-      "description": "获取集群列表",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "status": {
-          "name": "status",
-          "isRequired": "false",
-          "default": "",
-          "description": "请求状态，0 表示成功",
-          "type": "number"
-        },
-        "message": {
-          "name": "message",
-          "isRequired": "false",
-          "default": "",
-          "description": "如果不成功，返回的错误信息",
-          "type": "string"
-        },
-        "data": {
-          "name": "data",
-          "isRequired": "false",
-          "default": "",
-          "description": "返回的数据实体",
-          "type": "array[object]",
-          "properties": {
-            "entityStatus": {
-              "name": "entityStatus",
-              "isRequired": "false",
-              "default": "",
-              "description": "集群状态",
-              "type": "string"
-            },
-            "version": {
-              "name": "version",
-              "isRequired": "false",
-              "default": "",
-              "description": "CDH 版本，如 CDH5",
-              "type": "string"
-            },
-            "displayName": {
-              "name": "displayName",
-              "isRequired": "false",
-              "default": "",
-              "description": "集群展示名称",
-              "type": "string"
-            },
-            "name": {
-              "name": "name",
-              "isRequired": "false",
-              "default": "",
-              "description": "集群名称",
-              "type": "string"
-            },
-            "fullVersion": {
-              "name": "fullVersion",
-              "isRequired": "false",
-              "default": "",
-              "description": "详细版本，如 5.7.1",
-              "type": "string"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-07T09:17:16.021Z",
-      "gmt_modified": "2017-09-07T09:17:16.021Z",
-      "project_id": 3
-    }, {
-      "id": 53,
-      "path": "/api/clusters/capacity",
-      "description": "文件系统概况",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "返回的数据实体",
-          "properties": {
-            "name": {
-              "name": "name",
-              "type": "string",
-              "description": ""
-            },
-            "value": {
-              "name": "value",
-              "type": "string",
-              "description": "容量值"
-            },
-            "unit": {
-              "name": "unit",
-              "type": "string",
-              "description": "单位"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-28T08:21:55.043Z",
-      "gmt_modified": "2017-09-28T08:22:53.908Z",
-      "project_id": 3
-    }, {
-      "id": 55,
-      "path": "/api/clusters/charts/hdfs/monthly",
-      "description": "hdfs月增长",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "hdfs_used": {
-              "name": "hdfs_used",
-              "type": "array[object]",
-              "description": "",
-              "properties": {
-                "col_1": {
-                  "name": "col_1",
-                  "type": "string",
-                  "description": "日期"
-                },
-                "col_2": {
-                  "name": "col_2",
-                  "type": "string",
-                  "description": "已用容量"
-                },
-                "col_3": {
-                  "name": "col_3",
-                  "type": "string",
-                  "description": "上月容量"
-                },
-                "col_4": {
-                  "name": "col_4",
-                  "type": "string",
-                  "description": "增量"
-                },
-                "col_5": {
-                  "name": "col_5",
-                  "type": "string",
-                  "description": "月增长率"
-                }
-              }
-            },
-            "metadata": {
-              "name": "metadata",
-              "type": "array[string]",
-              "description": " [\"日期\", \"已用容量(T)\", \"上月容量(T)\", \"增量(T)\", \"月增长率(%)\"]"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-28T08:44:44.269Z",
-      "gmt_modified": "2017-09-28T08:44:44.269Z",
-      "project_id": 3
-    }, {
-      "id": 56,
-      "path": "/api/clusters/charts/hdfs/quarterly",
-      "description": "hdfs季增长统计",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "hdfs_used": {
-              "name": "hdfs_used",
-              "type": "array[object]",
-              "description": "",
-              "properties": {
-                "col_1": {
-                  "name": "col_1",
-                  "type": "string",
-                  "description": "日期"
-                },
-                "col_2": {
-                  "name": "col_2",
-                  "type": "string",
-                  "description": "已用容量"
-                },
-                "col_3": {
-                  "name": "col_3",
-                  "type": "string",
-                  "description": "上季容量"
-                },
-                "col_4": {
-                  "name": "col_4",
-                  "type": "string",
-                  "description": "增量"
-                },
-                "col_5": {
-                  "name": "col_5",
-                  "type": "string",
-                  "description": "季度增长率"
-                }
-              }
-            },
-            "metadata": {
-              "name": "metadata",
-              "type": "array[string]",
-              "description": " [\"日期\", \"已用容量(T)\", \"上季容量(T)\", \"增量(T)\", \"季度增长率(%)\"]"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-28T08:46:59.646Z",
-      "gmt_modified": "2017-09-28T08:46:59.646Z",
-      "project_id": 3
-    }, {
-      "id": 54,
-      "path": "/api/clusters/charts/hdfs/weekly",
-      "description": "hdfs 周增长",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "status": {
-          "name": "status",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "remaining": {
-              "name": "remaining",
-              "type": "string",
-              "description": "说明字段中的天数"
-            },
-            "hdfs_used": {
-              "name": "hdfs_used",
-              "type": "array[object]",
-              "description": "",
-              "properties": {
-                "col_1": {
-                  "name": "col_1",
-                  "type": "string",
-                  "description": "日期"
-                },
-                "col_2": {
-                  "name": "col_2",
-                  "type": "string",
-                  "description": "已用容量"
-                },
-                "col_3": {
-                  "name": "col_3",
-                  "type": "string",
-                  "description": "上周容量"
-                },
-                "col_4": {
-                  "name": "col_4",
-                  "type": "string",
-                  "description": "增量"
-                },
-                "col_5": {
-                  "name": "col_5",
-                  "type": "string",
-                  "description": "周增长率"
-                }
-              }
-            },
-            "metadata": {
-              "name": "metadata",
-              "type": "array[string]",
-              "description": "[\"日期\", \"已用容量(T)\", \"上周容量(T)\", \"增量(T)\", \"周增长率(%)\"]"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-09-28T08:41:36.565Z",
-      "gmt_modified": "2017-09-28T08:41:36.565Z",
-      "project_id": 3
-    }, {
-      "id": 59,
-      "path": "/api/clusters/hdfs/contents/adding",
-      "description": "获取集群HDFS基于目录的增量数据",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "status": {
-          "name": "status",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "content": {
-              "name": "content",
-              "type": "string",
-              "description": "目录"
-            },
-            "adding": {
-              "name": "adding",
-              "type": "string",
-              "description": "增量数据"
-            },
-            "sizeYesterday": {
-              "name": "sizeYesterday",
-              "type": "string",
-              "description": "昨日目录大小"
-            },
-            "sizeToday": {
-              "name": "sizeToday",
-              "type": "string",
-              "description": "今日目录大小"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-10-13T02:45:55.929Z",
-      "gmt_modified": "2017-10-13T02:46:43.446Z",
-      "project_id": 3
-    }, {
-      "id": 60,
-      "path": "/api/clusters/hdfs/user/adding",
-      "description": "获取集群HDFS基于用户的增量数据",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "status": {
-          "name": "status",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "adding": {
-              "name": "adding",
-              "type": "string",
-              "description": "增量数据"
-            },
-            "sizeYesterday": {
-              "name": "sizeYesterday",
-              "type": "string",
-              "description": "昨天的用户文件大小"
-            },
-            "user": {
-              "name": "user",
-              "type": "string",
-              "description": "用户名"
-            },
-            "sizeToday": {
-              "name": "sizeToday",
-              "type": "string",
-              "description": "今天的用户文件大小"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-10-13T02:57:10.630Z",
-      "gmt_modified": "2017-10-13T02:57:10.630Z",
-      "project_id": 3
-    }, {
-      "id": 62,
-      "path": "/api/clusters/yarn/memory",
-      "description": "获取资源池中内存使用率超过80%的情况",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "max_share_mb": {
-              "name": "max_share_mb",
-              "type": "string",
-              "description": "最大分配值"
-            },
-            "fair_share_mb": {
-              "name": "fair_share_mb",
-              "type": "string",
-              "description": "已使用值"
-            },
-            "entityName": {
-              "name": "entityName",
-              "type": "string",
-              "description": "资源池名称"
-            },
-            "used_rate/%": {
-              "name": "used_rate/%",
-              "type": "string",
-              "description": "使用率"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-10-13T03:04:46.463Z",
-      "gmt_modified": "2017-10-13T03:04:46.463Z",
-      "project_id": 3
-    }, {
-      "id": 61,
-      "path": "/api/clusters/yarn/vcore",
-      "description": "获取资源池中CPU使用率超过80%的情况",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {},
-      "response": {
-        "status": {
-          "name": "status",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "entityName": {
-              "name": "entityName",
-              "type": "string",
-              "description": "资源池名称"
-            },
-            "max_share_vcores": {
-              "name": "max_share_vcores",
-              "type": "string",
-              "description": "最大分配值"
-            },
-            "fair_share_vcores": {
-              "name": "fair_share_vcores",
-              "type": "string",
-              "description": "已使用值"
-            },
-            "used_rate/%": {
-              "name": "used_rate/%",
-              "type": "string",
-              "description": "使用率"
-            }
-          }
-        }
-      },
-      "gmt_create": "2017-10-13T03:02:00.949Z",
-      "gmt_modified": "2017-10-13T03:05:08.702Z",
-      "project_id": 3
-    }, {
-      "id": 17,
-      "path": "/api/users/staffGroups",
-      "description": "创建用户组",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
         "name": {
-          "name": "name",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "用户组名称"
-        },
-        "description": {
-          "name": "description",
-          "type": "string",
-          "description": "用户组描述",
-          "isRequired": "true"
-        },
-        "create_user": {
-          "name": "create_user",
-          "type": "string",
-          "description": "创建者",
-          "isRequired": "true"
+          "type": "string"
         }
       },
-      "response": {
-        "status": {
-          "name": "status",
-          "type": "string",
-          "description": "成功或失败的代码，0 表示成功，其他为失败"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-07T09:20:01.243Z",
-      "gmt_modified": "2017-09-07T09:20:01.243Z",
-      "project_id": 3
-    }]
-  }, {
-    "id": 4,
-    "name": "搜索后台管理平台",
-    "description": "搜索后台管理平台",
-    "production": null,
-    "development": null,
-    "testing": null,
-    "gmt_create": "2017-09-12T01:42:48.187Z",
-    "gmt_modified": "2017-09-12T01:42:48.187Z",
-    "apis": [{
-      "id": 58,
-      "path": "/indexadmin/checkdbsource",
-      "description": "检查数据源设置是能能够连接  数据源配置页面 ",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "ip": {
-          "name": "ip",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": ""
-        },
-        "port": {
-          "name": "port",
-          "type": "string",
-          "description": "",
-          "isRequired": "true"
-        },
-        "user": {
-          "name": "user",
-          "type": "string",
-          "description": "",
-          "isRequired": "true"
-        },
-        "passwd": {
-          "name": "passwd",
-          "type": "string",
-          "description": "",
-          "isRequired": "true"
-        },
-        "db": {
-          "name": "db",
-          "type": "string",
-          "description": "",
-          "isRequired": "true"
-        },
-        "isdebug": {
-          "name": "isdebug",
-          "type": "string",
-          "description": "测试参数 为true时passwd不需要加密",
-          "isRequired": "false",
-          "default": "false"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "info": {
-          "name": "info",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-10-09T07:58:50.733Z",
-      "gmt_modified": "2017-10-12T07:29:44.832Z",
-      "project_id": 4
-    }, {
-      "id": 23,
-      "path": "/indexadmin/createindexinfo",
-      "description": "对应索引信息的创建索引信息弹出窗口页面\n获取创建索引时候  数据库表  数据库字段，是否是主键，数据库字段类型，对应索引字段名，索引字段类型，分词方式的信息\ndata{indexname:,indextype:[{tablename1:,{}},{tablename2:,{}},{tablename3:,{}}]}  其中最里面的子括号里面的信息为{ 表是否为连接主表，数据库字段，是否是主键，数据库字段类型，对应索引字段名，索引字段类型，分词方式的信息}\nFor Example:http://10.213.129.38:8090/indexadmin/createindexinfo?id=52513\n",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
+      "xml": {
+        "name": "Category"
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
         "id": {
-          "name": "id",
-          "type": "string",
-          "description": "从主页面点击记录中传进来",
-          "isRequired": "true"
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User Status"
         }
       },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
         },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Tag"
+      }
+    },
+    "Pet": {
+      "type": "object",
+      "required": [
+        "name",
+        "photoUrls"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
         },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {
-            "indexname": {
-              "name": "indexname",
-              "type": "string",
-              "description": "indexname"
-            },
-            "indextype": {
-              "name": "indextype",
-              "type": "string",
-              "description": "indextype"
-            },
-            "tableinfo": {
-              "name": "tableinfo",
-              "type": "array[object]",
-              "description": "连表信息 可能有多个表",
-              "properties": {
-                "tablename": {
-                  "name": "tablename",
-                  "type": "string",
-                  "description": "表名"
-                },
-                "isprimarytable": {
-                  "name": "isprimarytable",
-                  "type": "boolean",
-                  "description": "是否是主表"
-                },
-                "fieldinfo": {
-                  "name": "fieldinfo",
-                  "type": "array[object]",
-                  "description": "表的字段信息  数据库字段，是否是主键，数据库字段类型，对应索引字段名，索引字段类型，分词方式的信息",
-                  "properties": {
-                    "fieldname": {
-                      "name": "fieldname",
-                      "type": "string",
-                      "description": " 字段名"
-                    },
-                    "isprimarykey": {
-                      "name": "isprimarykey",
-                      "type": "boolean",
-                      "description": "字段是否为主键"
-                    },
-                    "dbtype": {
-                      "name": "dbtype",
-                      "type": "string",
-                      "description": "数据库中的字段类型"
-                    },
-                    "indexfieldname": {
-                      "name": "indexfieldname",
-                      "type": "string",
-                      "description": "索引中对应字段名"
-                    },
-                    "indextype": {
-                      "name": "indextype",
-                      "type": "string",
-                      "description": "索引中对应字段的类型"
-                    },
-                    "anayzer": {
-                      "name": "anayzer",
-                      "type": "string",
-                      "description": "对应再索引中的分词方式"
-                    }
-                  }
-                }
-              }
-            }
+        "category": {
+          "$ref": "#/definitions/Category"
+        },
+        "name": {
+          "type": "string",
+          "example": "doggie"
+        },
+        "photoUrls": {
+          "type": "array",
+          "xml": {
+            "name": "photoUrl",
+            "wrapped": true
+          },
+          "items": {
+            "type": "string"
           }
-        }
-      },
-      "gmt_create": "2017-09-12T01:52:40.289Z",
-      "gmt_modified": "2017-09-29T05:40:21.028Z",
-      "project_id": 4
-    }, {
-      "id": 57,
-      "path": "/indexadmin/gettbinfo",
-      "description": "获取数据源某表的表字段和字段类型数据   在配置数据和索引对应的名称和类型映射时用到\nFor Example:http://10.213.129.38:8090/indexadmin/gettbinfo?ip=10.213.129.38&&port=13306&&user=root&&passwd=123456&&db=indexinfo&&tablename=indexinfo",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "ip": {
-          "name": "ip",
-          "type": "string",
-          "isRequired": "false",
-          "default": "",
-          "description": ""
         },
-        "port": {
-          "name": "port",
-          "type": "string",
-          "description": ""
-        },
-        "user": {
-          "name": "user",
-          "type": "string",
-          "description": ""
-        },
-        "passwd": {
-          "name": "passwd",
-          "type": "string",
-          "description": ""
-        },
-        "db": {
-          "name": "db",
-          "type": "string",
-          "description": ""
-        },
-        "table name": {
-          "name": "table name",
-          "type": "string",
-          "description": ""
-        },
-        "is debug": {
-          "name": "is debug",
-          "type": "string",
-          "description": "测试参数 为true时passwd不需要加密\t",
-          "default": "false"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-29T02:24:15.873Z",
-      "gmt_modified": "2017-10-10T01:39:45.307Z",
-      "project_id": 4
-    }, {
-      "id": 22,
-      "path": "/indexadmin/indexinfolist",
-      "description": "返回后台索引列表和基本信息  对应显示索引信息的主页面  支持分页\ndata中的错误日志和索引信息字段是前端自己生成  错误日志暂时生成个带链接文字的空链接（后续可能会跳转到elk kibana对应的索引页面）；索引信息则生成getindexinfo接口的页面  传入参数为该条data的ID\nFor Example:http://10.213.129.38:8090/indexadmin/indexinfolist?\n",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "from": {
-          "name": "from",
-          "type": "number",
-          "isRequired": "false",
-          "default": "0",
-          "description": "分页参数"
-        },
-        "size": {
-          "name": "size",
-          "type": "number",
-          "description": "分页参数",
-          "isRequired": "false",
-          "default": "20"
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "错误异常时的返回信息",
-          "properties": {}
-        },
-        "data": {
-          "name": "data",
-          "type": "array[object]",
-          "description": "数组内部每条记录是每行的索引信息key=>value值",
-          "properties": {
-            "id": {
-              "name": "id",
-              "type": "string",
-              "description": "对应页面列ID"
-            },
-            "user": {
-              "name": "user",
-              "type": "string",
-              "description": "对应页面列 业务User"
-            },
-            "descstr": {
-              "name": "descstr",
-              "type": "string",
-              "description": "对应页面列 PipeLineDesc"
-            },
-            "ip": {
-              "name": "ip",
-              "type": "string",
-              "description": "对应页面列 SourceDB"
-            },
-            "db": {
-              "name": "db",
-              "type": "string",
-              "description": "对应页面列 DBName"
-            },
-            "port": {
-              "name": "port",
-              "type": "number",
-              "description": "对应页面列Port"
-            },
-            "dbuser": {
-              "name": "dbuser",
-              "type": "string",
-              "description": "对应页面列 DBUser"
-            },
-            "indexname": {
-              "name": "indexname",
-              "type": "string",
-              "description": "对应列页面列 IndexName"
-            },
-            "status": {
-              "name": "status",
-              "type": "number",
-              "description": " 对应页面列 status"
-            },
-            "docnum": {
-              "name": "docnum",
-              "type": "number",
-              "description": "对应页面列  索引文档数"
-            }
+        "tags": {
+          "type": "array",
+          "xml": {
+            "name": "tag",
+            "wrapped": true
+          },
+          "items": {
+            "$ref": "#/definitions/Tag"
           }
+        },
+        "status": {
+          "type": "string",
+          "description": "pet status in the store",
+          "enum": [
+            "available",
+            "pending",
+            "sold"
+          ]
         }
       },
-      "gmt_create": "2017-09-12T01:44:27.618Z",
-      "gmt_modified": "2017-09-29T05:42:11.588Z",
-      "project_id": 4
-    }, {
-      "id": 47,
-      "path": "/indexadmin/login",
-      "description": "后台管理页面使用的接口    \n用户登录界面   1.登录成功 2.登陆失败; 数据库查询没有成功匹配登陆失败，查询成功登陆成功\ncode=0登录成功  否则登陆失败\n",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "true",
-          "default": "",
-          "description": "用户名"
-        },
-        "passwd": {
-          "name": "passwd",
-          "type": "string",
-          "description": "密码",
-          "isRequired": "true"
-        },
-        "isdebug": {
-          "name": "isdebug",
-          "type": "string",
-          "description": "测试参数 为true时passwd不需要加密\t",
-          "isRequired": "false",
-          "default": "false"
-        }
-      },
-      "response": {
+      "xml": {
+        "name": "Pet"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
         "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
         },
         "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
+          "type": "string"
         }
-      },
-      "gmt_create": "2017-09-26T01:20:46.900Z",
-      "gmt_modified": "2017-10-10T01:41:21.158Z",
-      "project_id": 4
-    }, {
-      "id": 46,
-      "path": "/indexadmin/storecreateindexinfo",
-      "description": "配置信息结束后提交配置信息的接口\n存储索引基本信息（数据源信息  连表信息 字段信息  字段类型  字段映射  字段分词等信息）；\n索引配置信息的提交",
-      "scheme": "http",
-      "method": "POST",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "user": {
-          "name": "user",
-          "type": "string",
-          "isRequired": "false",
-          "default": "",
-          "description": ""
-        },
-        "descstr": {
-          "name": "descstr",
-          "type": "string",
-          "description": ""
-        },
-        "ip": {
-          "name": "ip",
-          "type": "string",
-          "description": ""
-        },
-        "db": {
-          "name": "db",
-          "type": "string",
-          "description": ""
-        },
-        "dbuser": {
-          "name": "dbuser",
-          "type": "string",
-          "description": ""
-        },
-        "indexname": {
-          "name": "indexname",
-          "type": "string",
-          "description": ""
-        },
-        "indextype": {
-          "name": "indextype",
-          "type": "string",
-          "description": ""
-        },
-        "primarytable": {
-          "name": "primarytable",
-          "type": "string",
-          "description": ""
-        },
-        "indexinfojson": {
-          "name": "indexinfojson",
-          "type": "string",
-          "description": ""
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-25T06:59:35.542Z",
-      "gmt_modified": "2017-10-10T01:44:01.564Z",
-      "project_id": 4
-    }, {
-      "id": 48,
-      "path": "/indxadmin/getdbs",
-      "description": "数据源，数据库，数据表配置页面接口  \n配置数据源时  获取源数据库ip的数据库名列表\nFor Example:http://10.213.129.38:8090/indexadmin/getdbs?ip=10.213.129.38&&port=13306&&user=root&&passwd=123456\n",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "ip": {
-          "name": "ip",
-          "type": "string",
-          "isRequired": "false",
-          "default": "",
-          "description": ""
-        },
-        "port": {
-          "name": "port",
-          "type": "string",
-          "description": ""
-        },
-        "user": {
-          "name": "user",
-          "type": "string",
-          "description": ""
-        },
-        "passwd": {
-          "name": "passwd",
-          "type": "string",
-          "description": ""
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-26T06:14:32.351Z",
-      "gmt_modified": "2017-09-29T02:19:15.369Z",
-      "project_id": 4
-    }, {
-      "id": 49,
-      "path": "/indxadmin/gettbs",
-      "description": "数据源，数据库，数据表配置页面接口\n获取指定数据库名下的数据表的名字列表  返回该数据库下的表名列表\nFor Example:http://10.213.129.38:8090/indexadmin/gettbs?ip=10.213.129.38&&port=13306&&user=root&&passwd=123456&&db=mysql\n",
-      "scheme": "http",
-      "method": "GET",
-      "consumes": "json",
-      "produces": null,
-      "parameters": {
-        "ip": {
-          "name": "ip",
-          "type": "string",
-          "isRequired": "false",
-          "default": "",
-          "description": ""
-        },
-        "port": {
-          "name": "port",
-          "type": "string",
-          "description": ""
-        },
-        "db": {
-          "name": "db",
-          "type": "string",
-          "description": ""
-        },
-        "user": {
-          "name": "user",
-          "type": "string",
-          "description": ""
-        },
-        "passwd": {
-          "name": "passwd",
-          "type": "string",
-          "description": ""
-        }
-      },
-      "response": {
-        "code": {
-          "name": "code",
-          "type": "string",
-          "description": "成功或失败的代码"
-        },
-        "message": {
-          "name": "message",
-          "type": "string",
-          "description": "失败的描述信息"
-        },
-        "data": {
-          "name": "data",
-          "type": "object",
-          "description": "返回的数据实体",
-          "properties": {}
-        }
-      },
-      "gmt_create": "2017-09-26T06:15:30.513Z",
-      "gmt_modified": "2017-09-29T02:21:16.482Z",
-      "project_id": 4
-    }]
-  }]
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
 }
