@@ -6,6 +6,7 @@ import Typography from 'material-ui/Typography';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 
 import Project from '../../models/Project';
+import SchemaPreivew from '../schema-preview';
 
 import './index.less'
 
@@ -39,6 +40,8 @@ class ApiCard extends React.Component {
           </div>
           <div className="body">
             <div>{schema.description}</div>
+
+            {/* Parameters */}
             <div className="parameters">
               <div className="parameter-header">
                 <h3>Parameters</h3>
@@ -68,7 +71,7 @@ class ApiCard extends React.Component {
                           <TableCell>{parameter.name}</TableCell>
                           <TableCell>{parameter.description || '-'}</TableCell>
                           <TableCell>{parameter.in || '-'}</TableCell>
-                          <TableCell>{parameter.required.toString()}</TableCell>
+                          <TableCell>{parameter.required ? parameter.required.toString() : 'false'}</TableCell>
                           <TableCell>{parameter.type || JSON.stringify(parameter.schema)}</TableCell>
                         </TableRow>
                       ))
@@ -77,8 +80,9 @@ class ApiCard extends React.Component {
                   </Table>
                 )
               }
-              
             </div>
+
+            {/* Responses */}
             <div className="responses">
               <div className="response-header">
                 <h3>Responses</h3>
@@ -87,6 +91,32 @@ class ApiCard extends React.Component {
                   && <span className="content-type">Content-Type: {schema.consumes.join()}</span>
                 }
               </div>
+              {
+                !schema.responses
+                ? <p>&lt; None &gt;</p>
+                : (
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Code</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell>Schema</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {
+                      Object.entries(schema.responses).map(([code, res]) => (
+                        <TableRow key={code}>
+                          <TableCell>{code}</TableCell>
+                          <TableCell>{res.description || '-'}</TableCell>
+                          <TableCell><SchemaPreivew schema={res.schema} /></TableCell>
+                        </TableRow>
+                      ))
+                    }
+                    </TableBody>
+                  </Table>
+                )
+              }
             </div>
           </div>
         </Card>

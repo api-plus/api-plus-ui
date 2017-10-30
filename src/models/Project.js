@@ -35,7 +35,8 @@ export default class Project {
   }
 
   static async parse(yaml) {
-    return await SwaggerParser.YAML.parse(yaml);
+    let json = SwaggerParser.YAML.parse(yaml)
+    return await SwaggerParser.validate(json);
   }
 
   static async loadById(id) {
@@ -131,8 +132,16 @@ paths:
             $ref: '#/definitions/error'
 definitions:
   project:
-    $ref: project.yaml
+    properties:
+      name:
+        type: string
+      age:
+        type: integer
+        format: int32
+        minimum: 0
   error:
-    $ref: error.yaml
+    properties:
+      name:
+        type: string
   `
 }
