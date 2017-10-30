@@ -1,6 +1,7 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
 import { string } from 'prop-types';
+import { inject, observer } from 'mobx-react';
+import Card, { CardActions, CardContent } from 'material-ui/Card';
 
 import Project from '../models/Project';
 

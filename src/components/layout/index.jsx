@@ -75,7 +75,7 @@ const styles = theme => ({
     width: '100%',
     margin: '8px 0',
     lineHeight: '20px',
-    padding: '12px 16px',
+    padding: '0px 16px',
   },
   menuButton: {
     marginLeft: 12,

@@ -72,6 +72,11 @@ info:
 paths:
   /api/projects:
     get:
+      produces:
+      - application/json
+      - text/html
+      consumes:
+      - application/json
       description: 返回所有的项目
       responses:
         '200':
@@ -87,12 +92,16 @@ paths:
     post:
       description: 创建一个新项目
       parameters:
-        - name: project
-          in: body
-          description: 新建的项目的数据
+        - name: username
+          in: formData
+          description: '用户名'
           required: true
-          schema:
-            $ref: '#/definitions/project'
+          type: string
+        - name: password
+          in: formData
+          type: string
+          description: '密码'
+          required: true
       responses:
         '200':
           description: projects response

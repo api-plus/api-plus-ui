@@ -5,8 +5,8 @@ import Icon from 'material-ui/Icon';
 import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/ModeEdit';
 
+import ApiCard from '../components/api-card';
 import Project from '../models/Project';
-import PathDetail from './PathDetail';
 import './ProjectDetail.less';
 
 @inject('projectListStore', 'uiStore') @observer
@@ -64,7 +64,7 @@ export default class ProcjectDetail extends React.Component {
         {
           Object.entries(schema.paths).map(([path, methods]) => {
             return Object.entries(methods).map(([method, pathSchema]) => {
-              return <PathDetail path={path} method={method} schema={pathSchema} />
+              return <ApiCard path={path} method={method} schema={pathSchema} />
             });
           })
         }

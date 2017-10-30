@@ -1,0 +1,80 @@
+.component-api-card {
+  margin: 10px 0;
+  .header {
+    font-weight: bold;
+    color: #fff;
+    .method {
+      padding: 16px 0;
+      margin-right: 10px;
+      width: 120px;
+      display: inline-block;
+      text-align: center;
+    }
+    .path {
+      margin-right: 10px;
+    }
+    .summary {
+      font-weight: normal;
+    }
+  }
+  .body {
+    padding: 20px;
+    color: #333;
+    .parameter-header {
+      border-bottom: 1px solid #999;
+      h3 {
+        margin: 10px 0 5px;
+      }
+      .content-type {
+        float: right;
+        margin-top: -26px;
+        font-size: 16x;
+      }
+    }
+    .response-header {
+      border-bottom: 1px solid #999;
+      h3 {
+        margin: 10px 0 5px;
+      }
+      .content-type {
+        float: right;
+        margin-top: -26px;
+        font-size: 16x;
+      }
+    }
+  }
+
+  // 不同类型的请求，背景色不一样
+  &.get {
+    .header {
+      background-color: #66BB6A;
+      .method {
+        background-color: #43A047;
+      }
+    }
+  }
+  &.post {
+    .header {
+      background-color: #42A5F5;
+      .method {
+        background-color: #1E88E5;
+      }
+    }
+  }
+  &.delete {
+    .header {
+      background-color: #EF5350;
+      .method {
+        background-color: #E53935;
+      }
+    }
+  }
+  &.put {
+    .header {
+      background-color: #FFA726;
+      .method {
+        background-color: #FB8C00;
+      }
+    }
+  }
+}
