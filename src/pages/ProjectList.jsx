@@ -1,5 +1,6 @@
 import qs from 'querystring';
 import React from 'react';
+import classNames from 'classnames';
 import { inject, observer } from "mobx-react";
 import { Link } from 'react-router-dom';
 import createHistory from 'history/createHashHistory';
@@ -52,7 +53,10 @@ export default class ProjectsList extends React.Component {
             <ListItem
               dense 
               button
-              className={`list-item ${item.id === projectId ? 'active' : ''}`}
+              className={classNames({
+                'list-item': true,
+                'active': item.id === projectId
+              })}
               onClick={this.handleProjectClick.bind(this, item, null, null)}
             >
               {item.schema.info.title}
