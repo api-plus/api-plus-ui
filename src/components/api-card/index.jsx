@@ -29,7 +29,6 @@ class ApiCard extends React.Component {
     let { path, method, schema } = this.props;
 
     if (!schema) return null;
-    console.log(schema.parameters)
     return (
       <div className={`component-api-card ${method}`}>
         <Card>
@@ -52,7 +51,7 @@ class ApiCard extends React.Component {
               </div>
               {
                 !schema.parameters
-                ? <p>&lt; None &gt;</p>
+                ? <p>&lt;None&gt;</p>
                 : (
                   <Table>
                     <TableHead>
@@ -93,7 +92,7 @@ class ApiCard extends React.Component {
               </div>
               {
                 !schema.responses
-                ? <p>&lt; None &gt;</p>
+                ? <p>&lt;None&gt;</p>
                 : (
                   <Table>
                     <TableHead>

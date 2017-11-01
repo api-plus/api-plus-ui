@@ -49,10 +49,15 @@ export default class ProjectsList extends React.Component {
       {
         projects.map((item, i) => (
           <span key={item.id}>
-            <ListItem className="list-item" button onClick={this.handleProjectClick.bind(this, item, null, null)}>
-            {item.schema.info.title}
+            <ListItem
+              dense 
+              button
+              className={`list-item ${item.id === projectId ? 'active' : ''}`}
+              onClick={this.handleProjectClick.bind(this, item, null, null)}
+            >
+              {item.schema.info.title}
             </ListItem>
-            <Collapse 
+            {/* <Collapse 
               className="list-collapse"
               in={item.id === projectId} 
               transitionDuration="auto" 
@@ -76,7 +81,7 @@ export default class ProjectsList extends React.Component {
                 </span>
               ))
             }
-            </Collapse>
+            </Collapse> */}
           </span>
         ))
       }

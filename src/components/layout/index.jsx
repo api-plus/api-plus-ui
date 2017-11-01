@@ -74,8 +74,8 @@ const styles = theme => ({
   button: {
     width: '100%',
     margin: '8px 0',
-    lineHeight: '20px',
-    padding: '0px 16px',
+    // lineHeight: '20px',
+    // padding: '0px 16px',
   },
   menuButton: {
     marginLeft: 12,
@@ -180,7 +180,7 @@ class Layout extends React.Component {
                   </div>
                   <Divider />
                   <div className={classes.buttonContainer}>
-                    <Button href='#/create/project' className={classes.button}>新建项目</Button>
+                    <Button dense href='#/create/project' className={classes.button}>新建项目</Button>
                   </div>
                   <Divider />
                   <ProjectList />
