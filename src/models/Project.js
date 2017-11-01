@@ -2,13 +2,12 @@ import { observable, action } from 'mobx';
 import SwaggerParser from 'swagger-parser/dist/swagger-parser';
 
 import Ajax from '../components/ajax';
-import Api from './Api.js';
 
 export default class Project {
   id;
   isNew; // 是否前端新建的项目对象，尚未提交到后端
   @observable yaml;
-  @observable schema;
+  schema;
 
   constructor(project) {
     const { id, yaml, schema } = project;

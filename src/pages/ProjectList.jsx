@@ -13,15 +13,15 @@ import Button from 'material-ui/Button';
 
 import './ProjectList.less';
 
-@inject('projectListStore') @observer
+@inject('app') @observer
 export default class ProjectsList extends React.Component {
 
   handleProjectClick = (project, path, method) => {
-    const { projectListStore } = this.props;
-    projectListStore.setProject(project);
+    const { app } = this.props;
+    app.setProject(project);
     if (path && method) {
-      projectListStore.setPath(path);
-      projectListStore.setMethod(method);
+      app.setPath(path);
+      app.setMethod(method);
       history.push({
         pathname: `/project/${project.id}`,
         search: qs.stringify({
@@ -30,8 +30,8 @@ export default class ProjectsList extends React.Component {
         })
       });
     } else {
-      projectListStore.setPath(null);
-      projectListStore.setMethod(null);
+      app.setPath(null);
+      app.setMethod(null);
       history.push(`/project/${project.id}`);
     }
   }
@@ -42,7 +42,7 @@ export default class ProjectsList extends React.Component {
 
 
   render() {
-    const { projects, project, api } = this.props.projectListStore;
+    const { projects, project, api } = this.props.app;
     const projectId = project ? project.id : '';
     
     return (

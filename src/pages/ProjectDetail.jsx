@@ -9,11 +9,11 @@ import ApiCard from '../components/api-card';
 import Project from '../models/Project';
 import './ProjectDetail.less';
 
-@inject('projectListStore', 'uiStore') @observer
+@inject('app', 'uiStore') @observer
 export default class ProcjectDetail extends React.Component {
   
   async componentDidMount() {
-    const store = this.props.projectListStore;
+    const store = this.props.app;
     if (!store.projects.length) {
       await store.loadProjects();
     }
@@ -28,18 +28,18 @@ export default class ProcjectDetail extends React.Component {
   }
 
   handleDeleteClick = async () => {
-    const { project, projects } = this.props.projectListStore;
+    const { project, projects } = this.props.app;
     const { code } = await Project.del(project.id);
-    this.props.projectListStore.removeProject(project.id);
+    this.props.app.removeProject(project.id);
     location.hash = '/';
   }
   handleEditClick = () => {
-    const projectId = this.props.projectListStore.project.id;
+    const projectId = this.props.app.project.id;
     location.hash = `/edit/project/${projectId}`;
   }
 
   render() {
-    const project = this.props.projectListStore.project;
+    const project = this.props.app.project;
     if (!project) return null;
 
     const schema = project.schema;

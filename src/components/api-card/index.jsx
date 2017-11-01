@@ -1,6 +1,5 @@
 import React from 'react';
 import { object, string } from 'prop-types';
-import { inject, observer } from 'mobx-react';
 import Card from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
@@ -10,7 +9,6 @@ import SchemaPreivew from '../schema-preview';
 
 import './index.less'
 
-@inject('projectListStore') @observer
 class ApiCard extends React.Component {
 
   static propTypes = {
