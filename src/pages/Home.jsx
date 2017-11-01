@@ -1,7 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
 
+@inject('app')
 export default class Home extends React.Component {
+  
+  componentDidMount() {
+    const store = this.props.app;
+    if (!store.projects.length) {
+      store.loadProjects();
+    }
+  }
+
   render() {
     return (
       <div className="page-home">

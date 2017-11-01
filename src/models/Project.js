@@ -4,37 +4,76 @@ import SwaggerParser from 'swagger-parser/dist/swagger-parser';
 import Ajax from '../components/ajax';
 
 export default class Project {
-  id;
+  id; // 如果是前端新建的对象，设置 id 为时间戳
   isNew; // 是否前端新建的项目对象，尚未提交到后端
-  @observable yaml;
-  schema;
+  @observable format; // 指定 specification 格式为 'json' 或 'yaml'
+  @observable spec;
 
   constructor(project) {
-    const { id, yaml, schema } = project;
+    const { id, format, spec, schema } = project;
 
     this.isNew = id ? false : true;
     this.id = id || Date.now();
-    this.yaml = yaml;
+    this.format = format || 'yaml';
+    this.spec = spec;
     this.schema = schema;
   }
 
-  @action
-  update(project) {
-    this.yaml = project.yaml;
-    this.schema = project.schema;
-  }
-
   static async factory(project) {
-    project = project || {
-      yaml: Project.defaultYaml
-    };
+    // 从 spec 字符串解析成 schema 对象
+    let specObj = {};
+    if (project.format === 'yaml') {
+      specObj = SwaggerParser.YAML.parse(project.spec);
+    } else {
+      specObj = JSON.parse(project.spec);
+    }
+    project.schema = await Project.validate(specObj);
 
-    project.schema = await Project.parse(project.yaml);
+    // 生成 project 实例
     return new Project(project);
   }
 
-  static async parse(yaml) {
-    let json = SwaggerParser.YAML.parse(yaml)
+  isYaml() {
+    return this.format === 'yaml';
+  }
+
+  // 检查 spec 是否符合 json 或 yaml 格式
+  checkFormat() {
+    try {
+      if (this.isYaml()) {
+        SwaggerParser.YAML.parse(this.spec);
+      } else {
+        JSON.parse(this.spec);
+      }
+    } catch(e) {
+      throw e;
+    }
+  }
+
+  @action
+  setSpec(spec) {
+    if (!spec) return;
+    this.spec = spec;
+  }
+
+  @action
+  setFormat(format) {
+    if (format !== 'json' && format !== 'yaml') return;
+    this.format = format;
+  }
+
+  // 解析 spec 中的变量依赖关系
+  // static parse(spec, format) {
+  //   if (format === 'json') {
+  //     return SwaggerParser.YAML.stringify(spec);
+  //   } else if (format === 'yaml') {
+  //     return SwaggerParser.YAML.parse(spec);
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  static async validate(json) {
     return await SwaggerParser.validate(json);
   }
 
@@ -63,7 +102,7 @@ export default class Project {
     return body;
   }
 
-  static defaultYaml = `swagger: '2.0'
+  static defaultSpec = `swagger: '2.0'
 info:
   version: 1.0.0
   title: Api Plus Example Schema
