@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import Card from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Button from 'material-ui/Button';
 
 import Project from '../../models/Project';
 import SchemaPreivew from '../schema-preview';
@@ -46,7 +47,7 @@ class ApiCard extends React.Component {
               <div className="parameter-header">
                 <h3>Parameters</h3>
                 {
-                  schema.produces 
+                  schema.produces
                   && <span className="content-type">Content-Type: {schema.produces.join()}</span>
                 }
               </div>
@@ -87,7 +88,7 @@ class ApiCard extends React.Component {
               <div className="response-header">
                 <h3>Responses</h3>
                 {
-                  schema.consumes 
+                  schema.consumes
                   && <span className="content-type">Content-Type: {schema.consumes.join()}</span>
                 }
               </div>
@@ -100,7 +101,10 @@ class ApiCard extends React.Component {
                       <TableRow>
                         <TableCell>Code</TableCell>
                         <TableCell>Description</TableCell>
-                        <TableCell>Schema</TableCell>
+                        <TableCell>
+                          <Button className="toggle-schema-view">Schema</Button>
+                          <Button className="toggle-schema-view">Model</Button>
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -109,7 +113,10 @@ class ApiCard extends React.Component {
                         <TableRow key={code}>
                           <TableCell>{code}</TableCell>
                           <TableCell>{res.description || '-'}</TableCell>
-                          <TableCell><SchemaPreivew schema={res.schema} /></TableCell>
+                          <TableCell>
+                            {/* TODO ModelExample & Value */}
+                            <SchemaPreivew schema={res.schema} />
+                          </TableCell>
                         </TableRow>
                       ))
                     }
