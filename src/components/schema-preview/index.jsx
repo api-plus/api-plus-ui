@@ -3,7 +3,7 @@ import { object, string } from 'prop-types';
 
 function SchemaPreview(props) {
   return (
-    <pre>{JSON.stringify(props.schema, null, 2)}</pre>
+    <pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(props.schema, null, 2)}</pre>
   );
 }
 
