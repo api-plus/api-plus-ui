@@ -13,11 +13,11 @@ import Project from '../models/Project';
 import 'brace/mode/yaml';
 import 'brace/theme/monokai';
 
-@inject('projectListStore') @observer
+@inject('app') @observer
 export default class ProjectEdit extends React.Component {
 
   async componentDidMount() {
-    const store = this.props.projectListStore;
+    const store = this.props.app;
     if (!store.projects.length) {
       await store.loadProjects();
     }
@@ -36,15 +36,15 @@ export default class ProjectEdit extends React.Component {
   }
   
   componentWillUnMount() {
-    this.props.projectListStore.tempProject = null;
+    this.props.app.tempProject = null;
   }
 
   handleProjectChange = (value) => {
-    this.props.projectListStore.tempProject.yaml = value;
+    this.props.app.tempProject.yaml = value;
   }
 
   handleSaveClick = async () => {
-    const store = this.props.projectListStore;
+    const store = this.props.app;
     const { id, yaml } = store.tempProject;
     await Project.put({ id, yaml });
     const project = await Project.factory({ id, yaml });
@@ -53,7 +53,7 @@ export default class ProjectEdit extends React.Component {
   }
 
   render() {
-    const { tempProject } = this.props.projectListStore;
+    const { tempProject } = this.props.app;
     if (!tempProject) return null;
 
     return (

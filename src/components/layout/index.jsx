@@ -3,20 +3,10 @@ import React from 'react';
 import { Provider } from 'mobx-react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
-import Typography from 'material-ui/Typography';
+import { AppBar, Button, Divider, Drawer, IconButton, List, Toolbar, Typography } from 'material-ui';
 import { createMuiTheme, MuiThemeProvider, withStyles } from 'material-ui/styles';
+import { ChevronLeft, ChevronRight, Menu } from 'material-ui-icons';
 import blue from 'material-ui/colors/blue';
-import Divider from 'material-ui/Divider';
-import IconButton from 'material-ui/IconButton';
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
-import MenuIcon from 'material-ui-icons/Menu';
-import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
-import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 
 import store from '../../models';
 import AppRouter from '../app-router';
@@ -74,8 +64,8 @@ const styles = theme => ({
   button: {
     width: '100%',
     margin: '8px 0',
-    lineHeight: '20px',
-    padding: '0px 16px',
+    // lineHeight: '20px',
+    // padding: '0px 16px',
   },
   menuButton: {
     marginLeft: 12,
@@ -156,7 +146,7 @@ class Layout extends React.Component {
                     onClick={this.handleDrawerOpen}
                     className={classNames(classes.menuButton, this.state.open && classes.hide)}
                   >
-                    <MenuIcon />
+                    <Menu />
                   </IconButton>
                   <Typography type="title" color="inherit" noWrap>
                     Api Plus
@@ -174,12 +164,12 @@ class Layout extends React.Component {
                 <div className={classes.drawerInner}>
                   <div className={classes.drawerHeader}>
                     <IconButton onClick={this.handleDrawerClose}>
-                      {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                      {theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}
                     </IconButton>
                   </div>
                   <Divider />
                   <div className={classes.buttonContainer}>
-                    <Button href='#/create/project' className={classes.button}>新建项目</Button>
+                    <Button dense href='#/create/project' className={classes.button}>新建项目</Button>
                   </div>
                   <Divider />
                   <ProjectList />

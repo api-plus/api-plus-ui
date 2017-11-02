@@ -5,7 +5,6 @@ import Home from '../../pages/Home';
 import ProjectCreate from '../../pages/ProjectCreate';
 import ProjectEdit from '../../pages/ProjectEdit';
 import ProjectDetail from '../../pages/ProjectDetail';
-import PathDetail from '../../pages/PathDetail';
 
 export default class AppRouter extends React.Component {
   render() {

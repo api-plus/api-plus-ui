@@ -1,20 +1,10 @@
-import Project from './Project';
-import ProjectList from './ProjectList';
-import Api from './Api';
+import { useStrict } from 'mobx';
+useStrict(true);
+
+import App from './App';
 import UI from './UI';
 
 export default {
-  projectListStore: new ProjectList(),
-  // projectStore: new Project(),
-  // apiStore: new Api(),
+  app: new App(),
   uiStore: new UI(),
 }
-
-// export default {
-//   init: function async() {
-//     const projectList = await (new ProjectList).init();
-//     return {
-//       projectListStore: projectList
-//     }
-//   }
-// }

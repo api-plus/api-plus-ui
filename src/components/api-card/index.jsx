@@ -1,6 +1,5 @@
 import React from 'react';
 import { object, string } from 'prop-types';
-import { inject, observer } from 'mobx-react';
 import Card from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
@@ -11,7 +10,6 @@ import SchemaPreivew from '../schema-preview';
 
 import './index.less'
 
-@inject('projectListStore') @observer
 class ApiCard extends React.Component {
 
   static propTypes = {
@@ -30,7 +28,6 @@ class ApiCard extends React.Component {
     let { path, method, schema } = this.props;
 
     if (!schema) return null;
-    console.log(schema.parameters)
     return (
       <div className={`component-api-card ${method}`}>
         <Card>
@@ -53,7 +50,7 @@ class ApiCard extends React.Component {
               </div>
               {
                 !schema.parameters
-                ? <p>&lt; None &gt;</p>
+                ? <p>&lt;None&gt;</p>
                 : (
                   <Table>
                     <TableHead>
@@ -94,7 +91,7 @@ class ApiCard extends React.Component {
               </div>
               {
                 !schema.responses
-                ? <p>&lt; None &gt;</p>
+                ? <p>&lt;None&gt;</p>
                 : (
                   <Table>
                     <TableHead>

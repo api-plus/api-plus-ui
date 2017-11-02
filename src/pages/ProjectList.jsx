@@ -1,5 +1,6 @@
 import qs from 'querystring';
 import React from 'react';
+import classNames from 'classnames';
 import { inject, observer } from "mobx-react";
 import { Link } from 'react-router-dom';
 import createHistory from 'history/createHashHistory';
@@ -12,15 +13,15 @@ import Button from 'material-ui/Button';
 
 import './ProjectList.less';
 
-@inject('projectListStore') @observer
+@inject('app') @observer
 export default class ProjectsList extends React.Component {
 
   handleProjectClick = (project, path, method) => {
-    const { projectListStore } = this.props;
-    projectListStore.setProject(project);
+    const { app } = this.props;
+    app.setProject(project);
     if (path && method) {
-      projectListStore.setPath(path);
-      projectListStore.setMethod(method);
+      app.setPath(path);
+      app.setMethod(method);
       history.push({
         pathname: `/project/${project.id}`,
         search: qs.stringify({
@@ -29,8 +30,8 @@ export default class ProjectsList extends React.Component {
         })
       });
     } else {
-      projectListStore.setPath(null);
-      projectListStore.setMethod(null);
+      app.setPath(null);
+      app.setMethod(null);
       history.push(`/project/${project.id}`);
     }
   }
@@ -41,7 +42,7 @@ export default class ProjectsList extends React.Component {
 
 
   render() {
-    const { projects, project, api } = this.props.projectListStore;
+    const { projects, project, api } = this.props.app;
     const projectId = project ? project.id : '';
     
     return (
@@ -49,10 +50,18 @@ export default class ProjectsList extends React.Component {
       {
         projects.map((item, i) => (
           <span key={item.id}>
-            <ListItem className="list-item" button onClick={this.handleProjectClick.bind(this, item, null, null)}>
-            {item.schema.info.title}
+            <ListItem
+              dense 
+              button
+              className={classNames({
+                'list-item': true,
+                'active': item.id === projectId
+              })}
+              onClick={this.handleProjectClick.bind(this, item, null, null)}
+            >
+              {item.schema.info.title}
             </ListItem>
-            <Collapse 
+            {/* <Collapse 
               className="list-collapse"
               in={item.id === projectId} 
               transitionDuration="auto" 
@@ -76,7 +85,7 @@ export default class ProjectsList extends React.Component {
                 </span>
               ))
             }
-            </Collapse>
+            </Collapse> */}
           </span>
         ))
       }
