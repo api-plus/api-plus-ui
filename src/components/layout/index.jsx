@@ -34,8 +34,8 @@ const styles = theme => ({
   },
   root: {
     width: '100%',
+    height: '100vh',
     zIndex: 1,
-    overflow: 'hidden',
   },
   appFrame: {
     position: 'relative',
@@ -44,7 +44,7 @@ const styles = theme => ({
     height: '100%',
   },
   appBar: {
-    position: 'absolute',
+    position: 'fixed',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -75,7 +75,6 @@ const styles = theme => ({
     display: 'none',
   },
   drawerPaper: {
-    position: 'relative',
     height: '100%',
     width: drawerWidth,
   },
@@ -87,7 +86,6 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    width: '100%',
     marginLeft: -drawerWidth,
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
@@ -157,6 +155,7 @@ class Layout extends React.Component {
               </AppBar>
               <Drawer
                 type="persistent"
+                style={{width: drawerWidth}}
                 classes={{
                   paper: classes.drawerPaper,
                 }}
