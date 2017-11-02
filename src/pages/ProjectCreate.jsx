@@ -1,4 +1,4 @@
-// TODO 
+// TODO
 // 1. loading 状态
 // 2. 请求失败的提示
 
@@ -29,7 +29,7 @@ export default class ProjectCreate extends React.Component {
     });
     this.props.app.setTempProject(project);
   }
-  
+
   componentDidMount() {
     const store = this.props.app;
     if (!store.projects.length) {
@@ -142,15 +142,15 @@ export default class ProjectCreate extends React.Component {
             open={uiStore.isFormatMenuShow}
             onRequestClose={this.handleFormatMenuHide}
           >
-            <MenuItem 
-              selected={tempProject.isYaml()} 
+            <MenuItem
+              selected={tempProject.isYaml()}
               onClick={this.handleFormatClick.bind(this, 'yaml')}
             >
               YAML
             </MenuItem>
-            <MenuItem 
+            <MenuItem
               key="json"
-              selected={!tempProject.isYaml()} 
+              selected={!tempProject.isYaml()}
               onClick={this.handleFormatClick.bind(this, 'json')}
             >
               JSON
@@ -163,16 +163,16 @@ export default class ProjectCreate extends React.Component {
           </Tooltip>
         </div>
         {
-          uiStore.errorMsg && 
+          uiStore.errorMsg &&
           <div className="error-container">
             <pre>
             Error: {uiStore.errorMsg}
             </pre>
           </div>
         }
-        <AceEditor 
+        <AceEditor
           mode={tempProject.format}
-          theme="monokai" 
+          theme="monokai"
           height="600px"
           width="100%"
           value={tempProject.spec}
