@@ -70,7 +70,7 @@ class ApiCard extends React.Component {
                           <TableCell>{parameter.description || '-'}</TableCell>
                           <TableCell>{parameter.in || '-'}</TableCell>
                           <TableCell>{parameter.required ? parameter.required.toString() : 'false'}</TableCell>
-                          <TableCell>{parameter.type || JSON.stringify(parameter.schema)}</TableCell>
+                          <TableCell>{parameter.type || <SchemaPreivew schema={parameter.schema} />}</TableCell>
                         </TableRow>
                       ))
                     }
