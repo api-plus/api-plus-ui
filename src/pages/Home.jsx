@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 
 @inject('app')
 export default class Home extends React.Component {
-  
+
   componentDidMount() {
     const store = this.props.app;
     if (!store.projects.length) {

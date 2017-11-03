@@ -11,13 +11,12 @@ import './ProjectDetail.less';
 
 @inject('app', 'uiStore') @observer
 export default class ProcjectDetail extends React.Component {
-  
+
   async componentDidMount() {
     const store = this.props.app;
     if (!store.projects.length) {
       await store.loadProjects();
     }
-
     const projectId = parseInt(this.props.match.params.id);
     const project = store.getProject(projectId);
     if (project) {
@@ -33,6 +32,7 @@ export default class ProcjectDetail extends React.Component {
     this.props.app.removeProject(project.id);
     location.hash = '/';
   }
+
   handleEditClick = () => {
     const projectId = this.props.app.project.id;
     location.hash = `/edit/project/${projectId}`;

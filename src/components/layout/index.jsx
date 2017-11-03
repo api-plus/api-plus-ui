@@ -12,10 +12,13 @@ import {
   IconButton,
   Hidden,
   Divider,
-  Button
+  Button,
+  Tooltip
 } from 'material-ui';
 import { withStyles, createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import MenuIcon from 'material-ui-icons/Menu';
+import HomeIcon from 'material-ui-icons/Home';
+import AddCircle from 'material-ui-icons/AddCircle';
 import { red, grey, blue } from 'material-ui/colors';
 
 import store from '../../models';
@@ -71,8 +74,12 @@ const styles = theme => ({
       display: 'none',
     },
   },
+  appBarRight: {
+    marginLeft: 'auto',
+    marginStart: 'auto',
+  },
   drawerHeader: {
-    padding:' 0 24px',
+    padding:' 5px 24px 0 24px',
     display: 'flex',
     alignItems: 'flex-start',
     flexDirection: 'column',
@@ -90,6 +97,9 @@ const styles = theme => ({
   content: {
     backgroundColor: theme.palette.background.default,
     width: '100%',
+    maxWidth: 960,
+    marginLeft: 'auto',
+    marginRight: 'auto',
     padding: theme.spacing.unit * 3,
     height: 'calc(100% - 56px)',
     marginTop: 56,
@@ -100,7 +110,6 @@ const styles = theme => ({
   },
   version: {
     display: 'inline-block',
-    marginBottom: 4,
     marginLeft: 10,
     fontSize: 12,
   },
@@ -127,7 +136,8 @@ class Layout extends React.Component {
     const { classes } = this.props;
     const theme = createMuiTheme({
       palette: {
-        primary: blue
+        primary: blue,
+        secondary: red,
       },
     });
     return (
@@ -148,6 +158,18 @@ class Layout extends React.Component {
                   <Typography type="title" color="inherit" noWrap>
                     {store.uiStore.pageTitle}
                   </Typography>
+                  <div className={classes.appBarRight}>
+                    <Tooltip title="新建">
+                      <IconButton href="#/create/project">
+                        <AddCircle color="#fff"/>
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="主页">
+                      <IconButton href="#">
+                        <HomeIcon color="#fff"/>
+                      </IconButton>
+                    </Tooltip>
+                  </div>
                 </Toolbar>
               </AppBar>
               {/* 小屏的menu */}
