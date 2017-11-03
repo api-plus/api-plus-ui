@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
-@inject('app')
+@inject('app', 'uiStore')
 export default class Home extends React.Component {
 
   componentDidMount() {
@@ -10,6 +10,8 @@ export default class Home extends React.Component {
     if (!store.projects.length) {
       store.loadProjects();
     }
+    const uiStore = this.props.uiStore;
+    uiStore.setPageTitle('总览');
   }
 
   render() {

@@ -8,7 +8,7 @@ import Button from 'material-ui/Button';
 import Project from '../../models/Project';
 import SchemaPreivew from '../schema-preview';
 
-import './index.less'
+import './index.less';
 
 class ApiCard extends React.Component {
 
@@ -96,12 +96,9 @@ class ApiCard extends React.Component {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Code</TableCell>
-                        <TableCell>Description</TableCell>
-                        <TableCell>
-                          <Button className="toggle-schema-view">Schema</Button>
-                          <Button className="toggle-schema-view">Model</Button>
-                        </TableCell>
+                        <TableCell className="response-code">Code</TableCell>
+                        <TableCell className="response-description">Description</TableCell>
+                        <TableCell className="response-schema">Model</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>

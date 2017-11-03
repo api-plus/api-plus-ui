@@ -14,6 +14,7 @@ export default class ProcjectDetail extends React.Component {
 
   async componentDidMount() {
     const store = this.props.app;
+    const uiStore = this.props.uiStore;
     if (!store.projects.length) {
       await store.loadProjects();
     }
@@ -21,6 +22,7 @@ export default class ProcjectDetail extends React.Component {
     const project = store.getProject(projectId);
     if (project) {
       store.setProject(project);
+      uiStore.setPageTitle(project.schema.info.title);
     } else {
       location.hash = '/404';
     }

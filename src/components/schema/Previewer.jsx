@@ -84,14 +84,14 @@ export default class Previewer extends React.Component {
         default: value.default || '-',
         isRequired: value.isRequired
       }));
-      
+
       if (dataSource.length) {
         return (
-          <Table 
-            className="component-schema-previewer" 
+          <Table
+            className="component-schema-previewer"
             size="middle" bordered={true}
-            dataSource={dataSource} columns={columns} 
-            pagination={false} 
+            dataSource={dataSource} columns={columns}
+            pagination={false}
           />
         );
       } else {

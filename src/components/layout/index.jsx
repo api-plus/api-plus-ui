@@ -20,6 +20,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import HomeIcon from 'material-ui-icons/Home';
 import AddCircle from 'material-ui-icons/AddCircle';
 import { red, grey, blue } from 'material-ui/colors';
+import { observer } from 'mobx-react';
 
 import store from '../../models';
 import AppRouter from '../app-router';
@@ -123,6 +124,8 @@ const styles = theme => ({
   }
 });
 
+
+@observer
 class Layout extends React.Component {
   state = {
     mobileOpen: false,

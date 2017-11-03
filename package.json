@@ -30,6 +30,7 @@
     "history": "^4.7.2",
     "http-status": "^1.0.1",
     "js-cookie": "^2.1.4",
+    "json-schema-view-js": "^1.0.1",
     "material-ui": "^1.0.0-beta.16",
     "material-ui-icons": "^1.0.0-beta.15",
     "mobx": "^3.3.1",
