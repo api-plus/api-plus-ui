@@ -4,11 +4,13 @@
     font-weight: bold;
     color: #fff;
     .method {
-      padding: 10px 0;
+      padding: 7px 0;
       margin-right: 10px;
       width: 100px;
       display: inline-block;
       text-align: center;
+      border-radius: 5px;
+      color: #fff;
     }
     .path {
       margin-right: 10px;
@@ -56,18 +58,24 @@
   // 不同类型的请求，背景色不一样
   &.get {
     .header {
-      background-color: #66BB6A;
+      background-color: #A5D6A7;
       .method {
         background-color: #43A047;
       }
     }
+    .body {
+      background-color: #E8F5E9;
+    }
   }
   &.post {
     .header {
-      background-color: #42A5F5;
+      background-color: #90CAF9;
       .method {
         background-color: #1E88E5;
       }
+    }
+    .body {
+      background-color: #E3F2FD;
     }
   }
   &.delete {
@@ -77,6 +85,9 @@
         background-color: #E53935;
       }
     }
+    .body {
+      background-color: #FFEBEE;
+    }
   }
   &.put {
     .header {
@@ -84,6 +95,9 @@
       .method {
         background-color: #FB8C00;
       }
+    }
+    .body {
+      background-color: #FFF3E0;
     }
   }
 }

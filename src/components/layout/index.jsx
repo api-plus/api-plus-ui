@@ -80,7 +80,7 @@ const styles = theme => ({
     marginStart: 'auto',
   },
   drawerHeader: {
-    padding:' 5px 24px 0 24px',
+    padding:' 5px 24px 0 40px',
     display: 'flex',
     alignItems: 'flex-start',
     flexDirection: 'column',
@@ -193,7 +193,7 @@ class Layout extends React.Component {
                       <a className={classes.menuHeaderLink} href="#">
                         <Typography type="title" color="inherit" noWrap>
                           Api Plus
-                          <em className={classes.version}>V0.21</em>
+                          <em className={classes.version}>v0.21</em>
                         </Typography>
                       </a>
                       <a className={classes.menuHeaderLink} target="_blank" href="https://github.com/api-plus">
@@ -220,7 +220,7 @@ class Layout extends React.Component {
                       <a className={classes.menuHeaderLink} href="#">
                         <Typography type="title" color="inherit" noWrap>
                           Api Plus
-                          <em className={classes.version}>V0.21</em>
+                          <em className={classes.version}>v0.21</em>
                         </Typography>
                       </a>
                       <a className={classes.menuHeaderLink} target="_blank" href="https://github.com/api-plus">
