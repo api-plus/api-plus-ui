@@ -118,14 +118,12 @@ export default class Project {
 info:
   version: 1.0.0
   title: Api Plus Example Schema
-  description: >
-    Api Plus 接口定义示例文档
+  description: Api Plus 接口定义示例文档
 paths:
   /api/projects:
     get:
       produces:
       - application/json
-      - text/html
       consumes:
       - application/json
       description: 返回所有的项目
