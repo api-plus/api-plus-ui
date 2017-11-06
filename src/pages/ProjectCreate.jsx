@@ -10,7 +10,6 @@ import Button from 'material-ui/Button';
 import Tooltip from 'material-ui/Tooltip';
 import IconButton from 'material-ui/IconButton';
 import { Save as SaveIcon } from 'material-ui-icons';
-import SwipeableViews from 'react-swipeable-views';
 import createHistory from 'history/createHashHistory';
 const history = createHistory();
 
