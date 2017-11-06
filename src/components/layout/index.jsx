@@ -2,7 +2,7 @@
 import React from 'react';
 import { Provider } from 'mobx-react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import { AppBar, Button, Divider, Drawer, IconButton, List, Toolbar, Typography } from 'material-ui';
 import { createMuiTheme, MuiThemeProvider, withStyles } from 'material-ui/styles';
 import { ChevronLeft, ChevronRight, Menu } from 'material-ui-icons';
@@ -138,13 +138,13 @@ class Layout extends React.Component {
         <MuiThemeProvider theme={theme}>
           <div className={classes.root}>
             <div className={classes.appFrame}>
-              <AppBar className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
+              <AppBar className={classnames(classes.appBar, this.state.open && classes.appBarShift)}>
                 <Toolbar disableGutters={!this.state.open}>
                   <IconButton
                     color="contrast"
                     aria-label="open drawer"
                     onClick={this.handleDrawerOpen}
-                    className={classNames(classes.menuButton, this.state.open && classes.hide)}
+                    className={classnames(classes.menuButton, this.state.open && classes.hide)}
                   >
                     <Menu />
                   </IconButton>
@@ -175,7 +175,7 @@ class Layout extends React.Component {
                   <ProjectList />
                 </div>
               </Drawer>
-              <main className={classNames(classes.content, this.state.open && classes.contentShift)}>
+              <main className={classnames(classes.content, this.state.open && classes.contentShift)}>
                 <AppRouter />
               </main>
             </div>

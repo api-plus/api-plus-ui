@@ -4,20 +4,20 @@
 
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import SwaggerParser from 'swagger-parser/dist/swagger-parser';
-import AceEditor from 'react-ace';
-import { Button, Radio, Tooltip } from 'material-ui';
+import classnames from 'classnames';
+import Tabs, { Tab } from 'material-ui/Tabs';
+import Button from 'material-ui/Button';
+import Tooltip from 'material-ui/Tooltip';
 import IconButton from 'material-ui/IconButton';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import { Save as SaveIcon, Code as CodeIcon } from 'material-ui-icons';
+import { Save as SaveIcon } from 'material-ui-icons';
+import SwipeableViews from 'react-swipeable-views';
 import createHistory from 'history/createHashHistory';
 const history = createHistory();
 
 import Project from '../models/Project';
+import SchemaEditor from '../components/schema-editor';
+import SchemaForm from '../components/schema-form';
 
-import 'brace/mode/yaml';
-import 'brace/mode/json';
-import 'brace/theme/monokai';
 import './ProjectCreate.less';
 
 @inject('app', 'uiStore') @observer
@@ -39,75 +39,15 @@ export default class ProjectCreate extends React.Component {
 
   componentWillUnmount() {
     this.props.app.setTempProject(null);
-  }
-
-  handleFormatClick = (value) => {
-    // TODO
-    // 先校验
-    // 如果校验不通过，展示错误信息
-    // 如果校验通过，再切换到新的 format
-    const { app, uiStore } = this.props;
-    const tempProject = app.tempProject;
-    uiStore.setFormatMenuShow(false);
-    if (value !== tempProject.format) {
-      try {
-        let spec = '';
-        tempProject.checkFormat();
-        if (tempProject.isYaml()) {
-          let specObj = SwaggerParser.YAML.parse(tempProject.spec);
-          spec = JSON.stringify(specObj, null, 2);
-        } else {
-          let specObj = JSON.parse(tempProject.spec);
-          spec = SwaggerParser.YAML.stringify(specObj);
-        }
-        tempProject.setSpec(spec);
-        tempProject.setFormat(value);
-      } catch(e) {
-        uiStore.setErrorMsg(e.message);
-      }
-    }
-  }
-  handleFormatMenuShow = (e) => {
-    this.props.uiStore.setAnchorElm(e.target);
-    this.props.uiStore.setFormatMenuShow(true);
-  }
-  handleFormatMenuHide = () => {
-    this.props.uiStore.setAnchorElm(null);
-    this.props.uiStore.setFormatMenuShow(false);
-  }
-
-  handleSpecChange = (value) => {
-    const { app, uiStore } = this.props;
-    const tempProject = app.tempProject;
-
-    if (uiStore.errorMsg) {
-      try {
-        let spec = '';
-        if (tempProject.isYaml()) {
-          Project.parse(tempProject.spec, tempProject.format);
-        } else {
-          Project.parse(JSON.parse(tempProject.spec), tempProject.format);
-        }
-        uiStore.setErrorMsg(null);
-      } catch(e) {
-        uiStore.setErrorMsg(e.message);
-      }
-    }
-    app.tempProject.setSpec(value);
+    this.props.uiStore.setCreateProjectTab(0);
   }
 
   handleSaveClick = async () => {
     const { app, uiStore } = this.props;
     const tempProject = app.tempProject;
     try {
-      tempProject.checkFormat();
-      let specObj = {};
-      if (tempProject.isYaml()) {
-        specObj = SwaggerParser.YAML.parse(tempProject.spec);
-      } else {
-        specObj = JSON.parse(tempProject.spec);
-      }
-      await Project.validate(specObj);
+      let swaggerObject = tempProject.getSwaggerObject();
+      await Project.parse(swaggerObject);
       uiStore.setErrorMsg(null);
     } catch(e) {
       uiStore.setErrorMsg(decodeURI(e.message));
@@ -124,60 +64,38 @@ export default class ProjectCreate extends React.Component {
     history.push(`/project/${data.id}`);
   }
 
+  handleTabChange = (e, value) => {
+    this.props.uiStore.setCreateProjectTab(value);
+  }
+
   render() {
     const { app, uiStore } = this.props;
     const tempProject = app.tempProject;
 
     return (
       <div className="page-project-create">
-        <div className="btns-container">
-          <Tooltip title="切换 JSON / YAML 格式" placement="bottom">
-            <IconButton className="btn" onClick={this.handleFormatMenuShow}>
-              <CodeIcon />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            id="simple-menu"
-            anchorEl={uiStore.anchorElm}
-            open={uiStore.isFormatMenuShow}
-            onRequestClose={this.handleFormatMenuHide}
-          >
-            <MenuItem 
-              selected={tempProject.isYaml()} 
-              onClick={this.handleFormatClick.bind(this, 'yaml')}
-            >
-              YAML
-            </MenuItem>
-            <MenuItem 
-              key="json"
-              selected={!tempProject.isYaml()} 
-              onClick={this.handleFormatClick.bind(this, 'json')}
-            >
-              JSON
-            </MenuItem>
-          </Menu>
-          <Tooltip title="保存并提交" placement="bottom">
-            <IconButton className="btn" onClick={this.handleSaveClick}>
-              <SaveIcon/>
-            </IconButton>
-          </Tooltip>
-        </div>
+
+        <Tooltip title="保存并提交" placement="bottom">
+          <IconButton color="primary" className="tab-btn" onClick={this.handleSaveClick}>
+            <SaveIcon />
+          </IconButton>
+        </Tooltip>
+        <Tabs value={uiStore.createProjectTab} onChange={this.handleTabChange}>
+          <Tab label="Editor" />
+          <Tab label="Form" />
+        </Tabs>
+        {/* <SwipeableViews index={uiStore.createProjectTab}>
+          <SchemaEditor spec={tempProject.spec} />
+          <SchemaForm spec={tempProject.spec} />
+        </SwipeableViews> */}
         {
-          uiStore.errorMsg && 
-          <div className="error-container">
-            <pre>
-            Error: {uiStore.errorMsg}
-            </pre>
-          </div>
+          uiStore.createProjectTab === 0
+          && <SchemaEditor spec={tempProject.spec} />
         }
-        <AceEditor 
-          mode={tempProject.format}
-          theme="monokai" 
-          height="600px"
-          width="100%"
-          value={tempProject.spec}
-          onChange={this.handleSpecChange}
-        />
+        {
+          uiStore.createProjectTab === 1
+          && <SchemaForm spec={tempProject.spec} />
+        }
       </div>
     );
   }

@@ -8,6 +8,7 @@ export default class Project {
   isNew; // 是否前端新建的项目对象，尚未提交到后端
   @observable format; // 指定 specification 格式为 'json' 或 'yaml'
   @observable spec;
+  schema;
 
   constructor(project) {
     const { id, format, spec, schema } = project;
@@ -21,34 +22,55 @@ export default class Project {
 
   static async factory(project) {
     // 从 spec 字符串解析成 schema 对象
-    let specObj = {};
-    if (project.format === 'yaml') {
-      specObj = SwaggerParser.YAML.parse(project.spec);
-    } else {
-      specObj = JSON.parse(project.spec);
-    }
-    project.schema = await Project.validate(specObj);
+    let swaggerObject = Project.checkFormat(project.spec, project.format);
+    project.schema = await Project.parse(swaggerObject);
 
     // 生成 project 实例
     return new Project(project);
+  }
+
+  // 检查 spec 是否符合 json 或 yaml 格式，如果符合则返回 Swagger Object
+  static checkFormat(spec, format) {
+    let swaggerObject = {};
+    if (format === 'yaml') {
+      swaggerObject = SwaggerParser.YAML.parse(spec);
+    } else {
+      swaggerObject = JSON.parse(spec);
+    }
+    return swaggerObject;
+  }
+
+  // 获取 Swagger Object
+  getSwaggerObject() {
+    try {
+      return Project.checkFormat(this.spec, this.format);
+    } catch(e) {
+      throw e;
+    }
+  }
+
+  // 获取 Swagger String
+  getSwaggerString(format) {
+    format = format || this.format;
+
+    try {
+      let swaggerObject = this.getSwaggerObject();
+      let swaggerString = null;
+      if (format === 'yaml') {
+        swaggerString = SwaggerParser.YAML.stringify(swaggerObject);
+      } else {
+        swaggerString = JSON.stringify(swaggerObject, null, 2);
+      }
+      return swaggerString;
+    } catch(e) {
+      throw e;
+    }
   }
 
   isYaml() {
     return this.format === 'yaml';
   }
 
-  // 检查 spec 是否符合 json 或 yaml 格式
-  checkFormat() {
-    try {
-      if (this.isYaml()) {
-        SwaggerParser.YAML.parse(this.spec);
-      } else {
-        JSON.parse(this.spec);
-      }
-    } catch(e) {
-      throw e;
-    }
-  }
 
   @action
   setSpec(spec) {
@@ -62,18 +84,8 @@ export default class Project {
     this.format = format;
   }
 
-  // 解析 spec 中的变量依赖关系
-  // static parse(spec, format) {
-  //   if (format === 'json') {
-  //     return SwaggerParser.YAML.stringify(spec);
-  //   } else if (format === 'yaml') {
-  //     return SwaggerParser.YAML.parse(spec);
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-  static async validate(json) {
+  // 校验并解析 spec 中的变量依赖关系
+  static async parse(json) {
     return await SwaggerParser.validate(json);
   }
 
