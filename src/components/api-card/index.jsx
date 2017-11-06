@@ -1,14 +1,13 @@
 import React from 'react';
 import { object, string } from 'prop-types';
-import Card from 'material-ui/Card';
-import Typography from 'material-ui/Typography';
+import { Card, Typography } from 'material-ui';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Button from 'material-ui/Button';
 
 import Project from '../../models/Project';
 import SchemaPreivew from '../schema-preview';
 
-import './index.less'
+import './index.less';
 
 class ApiCard extends React.Component {
 
@@ -32,8 +31,10 @@ class ApiCard extends React.Component {
       <div className={`component-api-card ${method}`}>
         <Card>
           <div className="header">
-            <span className="method">{method.toUpperCase()}</span>
-            <span className="path">{path}</span>
+            <Typography type="title">
+              <span className="method">{method.toUpperCase()}</span>
+              <span className="path">{path}</span>
+            </Typography>
             <span className="summary">{schema.summary}</span>
           </div>
           <div className="body">
@@ -96,12 +97,9 @@ class ApiCard extends React.Component {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Code</TableCell>
-                        <TableCell>Description</TableCell>
-                        <TableCell>
-                          <Button className="toggle-schema-view">Schema</Button>
-                          <Button className="toggle-schema-view">Model</Button>
-                        </TableCell>
+                        <TableCell className="response-code">Code</TableCell>
+                        <TableCell className="response-description">Description</TableCell>
+                        <TableCell className="response-schema">Model</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>

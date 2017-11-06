@@ -16,13 +16,13 @@ export default class Api {
   @observable gmt_modified;
 
   constructor(api) {
-    const { id, 
-      path, 
-      method, 
-      description, 
-      project_id, 
-      produces, 
-      consumes, 
+    const { id,
+      path,
+      method,
+      description,
+      project_id,
+      produces,
+      consumes,
       scheme,
       parameters,
       response,

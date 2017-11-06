@@ -1,12 +1,25 @@
-// 参考官方的框架布局 https://material-ui-next.com/demos/drawers/#persistent-drawer
+/* eslint-disable flowtype/require-valid-file-annotation */
+
 import React from 'react';
-import { Provider } from 'mobx-react';
 import PropTypes from 'prop-types';
+import { observer, Provider } from 'mobx-react';
 import classnames from 'classnames';
+import {
+  AppBar,
+  Button,
+  Divider,
+  Drawer,
+  Hidden,
+  IconButton,
+  List,
+  Typography,
+  Toolbar,
+  Tooltip
+} from 'material-ui';
 import { AppBar, Button, Divider, Drawer, IconButton, List, Toolbar, Typography } from 'material-ui';
+import { red, grey, blue } from 'material-ui/colors';
 import { createMuiTheme, MuiThemeProvider, withStyles } from 'material-ui/styles';
-import { ChevronLeft, ChevronRight, Menu } from 'material-ui-icons';
-import blue from 'material-ui/colors/blue';
+import { AddCircle, ChevronLeft, ChevronRight, Home as HomeIcon, Menu as MenuIcon } from 'material-ui-icons';
 
 import store from '../../models';
 import AppRouter from '../app-router';
@@ -31,6 +44,13 @@ const styles = theme => ({
     body: {
       margin: 0,
     },
+    a: {
+      color: red[500],
+      textDecoration: 'none',
+      '&:hover': {
+        textDecoration: 'underline',
+      }
+    },
   },
   root: {
     width: '100%',
@@ -45,137 +65,175 @@ const styles = theme => ({
   },
   appBar: {
     position: 'fixed',
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  buttonContainer: {
-    textAlign: 'center',
-  },
-  button: {
-    width: '100%',
-    margin: '8px 0',
-    // lineHeight: '20px',
-    // padding: '0px 16px',
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 20,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawerPaper: {
-    height: '100%',
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    marginLeft: -drawerWidth,
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    height: 'calc(100% - 56px)',
-    marginTop: 56,
-    [theme.breakpoints.up('sm')]: {
-      content: {
-        height: 'calc(100% - 64px)',
-        marginTop: 64,
-      },
+    [theme.breakpoints.up('lg')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
     },
   },
-  contentShift: {
-    marginLeft: 0,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+  navIconHide: {
+    [theme.breakpoints.up('lg')]: {
+      display: 'none',
+    },
   },
+  appBarRight: {
+    marginLeft: 'auto',
+    marginStart: 'auto',
+  },
+  drawerHeader: {
+    padding:' 5px 24px 0 40px',
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    ...theme.mixins.toolbar
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    [theme.breakpoints.up('lg')]: {
+      width: drawerWidth,
+      position: 'fixed',
+      height: '100%',
+    },
+  },
+  content: {
+    backgroundColor: theme.palette.background.default,
+    width: '100%',
+    maxWidth: 960,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: theme.spacing.unit * 3,
+    height: 'calc(100% - 56px)',
+    marginTop: 56,
+    [theme.breakpoints.up('lg')]: {
+      height: 'calc(100% - 64px)',
+      marginTop: 64,
+    },
+  },
+  version: {
+    display: 'inline-block',
+    marginLeft: 10,
+    fontSize: 12,
+  },
+  menuHeaderLink: {
+    transition: 'all .2s',
+    color: grey[700],
+    '&:hover': {
+      textDecoration: 'none',
+      color: red[500]
+    }
+  }
 });
 
+
+@observer
 class Layout extends React.Component {
   state = {
-    open: true,
+    mobileOpen: false,
   };
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
+  handleDrawerToggle = () => {
+    this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
   render() {
     const { classes } = this.props;
     const theme = createMuiTheme({
       palette: {
-        primary: blue
+        primary: blue,
+        secondary: red,
       },
     });
-
     return (
       <Provider {...store}>
         <MuiThemeProvider theme={theme}>
           <div className={classes.root}>
             <div className={classes.appFrame}>
-              <AppBar className={classnames(classes.appBar, this.state.open && classes.appBarShift)}>
-                <Toolbar disableGutters={!this.state.open}>
+              <AppBar className={classes.appBar}>
+                <Toolbar>
                   <IconButton
                     color="contrast"
                     aria-label="open drawer"
-                    onClick={this.handleDrawerOpen}
-                    className={classnames(classes.menuButton, this.state.open && classes.hide)}
+                    onClick={this.handleDrawerToggle}
+                    className={classes.navIconHide}
                   >
-                    <Menu />
+                    <MenuIcon />
                   </IconButton>
                   <Typography type="title" color="inherit" noWrap>
-                    Api Plus
+                    {store.uiStore.pageTitle}
                   </Typography>
+                  <div className={classes.appBarRight}>
+                    <Tooltip title="新建">
+                      <IconButton href="#/create/project">
+                        <AddCircle color="#fff"/>
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="主页">
+                      <IconButton href="#">
+                        <HomeIcon color="#fff"/>
+                      </IconButton>
+                    </Tooltip>
+                  </div>
                 </Toolbar>
               </AppBar>
-              <Drawer
-                type="persistent"
-                style={{width: drawerWidth}}
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-                open={this.state.open}
-              >
-                <div className={classes.drawerInner}>
-                  <div className={classes.drawerHeader}>
-                    <IconButton onClick={this.handleDrawerClose}>
-                      {theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}
-                    </IconButton>
+              {/* 小屏的menu */}
+              <Hidden lgUp>
+                <Drawer
+                  type="temporary"
+                  anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                  open={this.state.mobileOpen}
+                  style={{width: drawerWidth}}
+                  classes={{paper: classes.drawerPaper}}
+                  onRequestClose={this.handleDrawerToggle}
+                  ModalProps={{
+                    keepMounted: true,
+                  }}
+                >
+                  <div className={classes.drawerInner}>
+                    <div className={classes.drawerHeader}>
+                      <a className={classes.menuHeaderLink} href="#">
+                        <Typography type="title" color="inherit" noWrap>
+                          Api Plus
+                          <em className={classes.version}>v0.21</em>
+                        </Typography>
+                      </a>
+                      <a className={classes.menuHeaderLink} target="_blank" href="https://github.com/api-plus">
+                        <Typography type="caption" color="inherit" noWrap>
+                          Visit us on github
+                        </Typography>
+                      </a>
+                    </div>
+                    <Divider />
+                    <ProjectList />
                   </div>
-                  <Divider />
-                  <div className={classes.buttonContainer}>
-                    <Button dense href='#/create/project' className={classes.button}>新建项目</Button>
+                </Drawer>
+              </Hidden>
+              {/* 大屏的menu */}
+              <Hidden lgDown implementation="css">
+                <Drawer
+                  type="permanent"
+                  open
+                  style={{width: drawerWidth}}
+                  classes={{paper: classes.drawerPaper}}
+                >
+                  <div className={classes.drawerInner}>
+                    <div className={classes.drawerHeader}>
+                      <a className={classes.menuHeaderLink} href="#">
+                        <Typography type="title" color="inherit" noWrap>
+                          Api Plus
+                          <em className={classes.version}>v0.21</em>
+                        </Typography>
+                      </a>
+                      <a className={classes.menuHeaderLink} target="_blank" href="https://github.com/api-plus">
+                        <Typography type="caption" color="inherit" noWrap>
+                          Visit us on github
+                        </Typography>
+                      </a>
+                    </div>
+                    <Divider />
+                    <ProjectList />
                   </div>
-                  <Divider />
-                  <ProjectList />
-                </div>
-              </Drawer>
-              <main className={classnames(classes.content, this.state.open && classes.contentShift)}>
+                </Drawer>
+              </Hidden>
+              <main className={classes.content}>
                 <AppRouter />
               </main>
             </div>
