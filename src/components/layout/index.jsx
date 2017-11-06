@@ -150,7 +150,6 @@ class Layout extends React.Component {
                 <Toolbar>
                   <IconButton
                     color="contrast"
-                    aria-label="open drawer"
                     onClick={this.handleDrawerToggle}
                     className={classes.navIconHide}
                   >
