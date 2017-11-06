@@ -74,7 +74,6 @@ export default class ProjectCreate extends React.Component {
 
     return (
       <div className="page-project-create">
-<<<<<<< HEAD
 
         <Tooltip title="保存并提交" placement="bottom">
           <IconButton color="primary" className="tab-btn" onClick={this.handleSaveClick}>
@@ -97,56 +96,6 @@ export default class ProjectCreate extends React.Component {
           uiStore.createProjectTab === 1
           && <SchemaForm spec={tempProject.spec} />
         }
-=======
-        <div className="btns-container">
-          <Tooltip title="切换 JSON / YAML 格式" placement="bottom">
-            <IconButton className="btn" onClick={this.handleFormatMenuShow}>
-              <CodeIcon />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            id="simple-menu"
-            anchorEl={uiStore.anchorElm}
-            open={uiStore.isFormatMenuShow}
-            onRequestClose={this.handleFormatMenuHide}
-          >
-            <MenuItem
-              selected={tempProject.isYaml()}
-              onClick={this.handleFormatClick.bind(this, 'yaml')}
-            >
-              YAML
-            </MenuItem>
-            <MenuItem
-              key="json"
-              selected={!tempProject.isYaml()}
-              onClick={this.handleFormatClick.bind(this, 'json')}
-            >
-              JSON
-            </MenuItem>
-          </Menu>
-          <Tooltip title="保存并提交" placement="bottom">
-            <IconButton className="btn" onClick={this.handleSaveClick}>
-              <SaveIcon/>
-            </IconButton>
-          </Tooltip>
-        </div>
-        {
-          uiStore.errorMsg &&
-          <div className="error-container">
-            <pre>
-            Error: {uiStore.errorMsg}
-            </pre>
-          </div>
-        }
-        <AceEditor
-          mode={tempProject.format}
-          theme="monokai"
-          height="600px"
-          width="100%"
-          value={tempProject.spec}
-          onChange={this.handleSpecChange}
-        />
->>>>>>> b25b68b454517ef48929c7bd84e0c6b42e5aa60b
       </div>
     );
   }

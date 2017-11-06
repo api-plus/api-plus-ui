@@ -16,7 +16,6 @@ import {
   Toolbar,
   Tooltip
 } from 'material-ui';
-import { AppBar, Button, Divider, Drawer, IconButton, List, Toolbar, Typography } from 'material-ui';
 import { red, grey, blue } from 'material-ui/colors';
 import { createMuiTheme, MuiThemeProvider, withStyles } from 'material-ui/styles';
 import { AddCircle, ChevronLeft, ChevronRight, Home as HomeIcon, Menu as MenuIcon } from 'material-ui-icons';
