@@ -38,7 +38,7 @@ export default class ProjectCreate extends React.Component {
 
   componentWillUnmount() {
     this.props.app.setTempProject(null);
-    this.props.uiStore.setCreateProjectTab(0);
+    this.props.uiStore.setCreateProjectTab(1);
   }
 
   handleSaveClick = async () => {
@@ -93,7 +93,7 @@ export default class ProjectCreate extends React.Component {
         }
         {
           uiStore.createProjectTab === 1
-          && <SchemaForm spec={tempProject.spec} />
+          && <SchemaForm initialSchema={tempProject.getSwaggerObject()} />
         }
       </div>
     );

@@ -8,6 +8,7 @@ import Input, { InputLabel } from 'material-ui/Input';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Select from 'material-ui/Select';
+import Typography from 'material-ui/Typography';
 
 import Parameter from './Parameter';
 
@@ -29,6 +30,13 @@ const styles = theme => ({
   },
   textField: {
     paddingRight: '10px'
+  },
+  subheading: {
+    paddingTop: '25px'
+  },
+  noData: {
+    color: '#999',
+    fontSize: '80%'
   },
   fieldset: {
     borderColor: '#aaa',
@@ -96,23 +104,21 @@ class Path extends React.Component {
           <MenuItem value="put">DELETE</MenuItem>
         </TextField>
 
+        <FormControl className={`${classes.textField} ${classes.width20}`}>
+          <InputLabel>Consumes</InputLabel>
+          <Select multiple value={consumes}>
+            <MenuItem value="application/json">application/json</MenuItem>
+            <MenuItem value="multipart/form-data">multipart/form-data</MenuItem>
+            <MenuItem value="application/x-www-form-urlencoded">application/x-www-form-urlencoded</MenuItem>
+          </Select>
+        </FormControl>
 
-            <FormControl className={`${classes.textField} ${classes.width20}`}>
-              <InputLabel>Consumes</InputLabel>
-              <Select multiple value={consumes}>
-                <MenuItem value="application/json">application/json</MenuItem>
-                <MenuItem value="multipart/form-data">multipart/form-data</MenuItem>
-                <MenuItem value="application/x-www-form-urlencoded">application/x-www-form-urlencoded</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl className={`${classes.textField} ${classes.width20}`}>
-              <InputLabel>Produces</InputLabel>
-              <Select multiple value={produces}>
-                <MenuItem value="application/json">application/json</MenuItem>
-                <MenuItem value="application/json">text/html</MenuItem>
-              </Select>
-            </FormControl>
+        <FormControl className={`${classes.textField} ${classes.width20}`}>
+          <InputLabel>Produces</InputLabel>
+          <Select multiple value={produces}>
+            <MenuItem value="application/json">application/json</MenuItem>
+          </Select>
+        </FormControl>
 
         <TextField
           fullWidth
@@ -121,15 +127,22 @@ class Path extends React.Component {
           className={classes.textField}
         />
 
-        <fieldset className={classes.fieldset}>
-          <legend>Parameters</legend>
-          {
-            operation.parameters && operation.parameters.map(parameter => <Parameter key={parameter.name} definitions={definitions} />)
-          }
-        </fieldset>
-        <fieldset className={classes.fieldset}>
-          <legend>Response</legend>
-        </fieldset>
+        <Typography className={classes.subheading} type="subheading" component="h3">
+          Parameters
+        </Typography>
+        {
+          operation.parameters
+          ? operation.parameters.map(parameter => 
+            <Parameter key={parameter.name} definitions={definitions} />
+          )
+          : <span className={classes.noData}>No Parameters</span>
+        }
+        
+        <Typography className={classes.subheading} type="subheading" component="h3">
+          Responses
+        </Typography>
+        <span className={classes.noData}>No Responses</span>
+
       </div>
     );
   }

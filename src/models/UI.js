@@ -6,7 +6,7 @@ export default class UI {
   @observable anchorElm = null; // 创建 project 页面的锚点元素
   @observable isFormatMenuShow = false;
   @observable errorMsg = null;
-  @observable createProjectTab = 0;
+  @observable createProjectTab = 1;
   
   @action
   setCreateProjectTab(createProjectTab) {
