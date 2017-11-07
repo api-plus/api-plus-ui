@@ -12,7 +12,15 @@ import './ProjectDetail.less';
 @inject('app', 'uiStore') @observer
 export default class ProcjectDetail extends React.Component {
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.loadProject()
+  }
+
+  componentDidUpdate() {
+    this.loadProject();
+  }
+
+  loadProject = async() => {
     const store = this.props.app;
     const uiStore = this.props.uiStore;
     if (!store.projects.length) {

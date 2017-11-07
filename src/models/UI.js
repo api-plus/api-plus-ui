@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 
 export default class UI {
-  @observable pageTitle = '总览';
+  @observable pageTitle = 'Api Plus';
   @observable isDrawerOpen = true;
   @observable anchorElm = null; // 创建 project 页面的锚点元素
   @observable isFormatMenuShow = false;

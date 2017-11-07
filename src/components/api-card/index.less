@@ -1,16 +1,19 @@
 .component-api-card {
   margin: 10px 0;
+  table {
+    table-layout: fixed;
+  }
   .header {
-    font-weight: bold;
-    color: #fff;
+    color: #222;
     .method {
       padding: 7px 0;
       margin-right: 10px;
       width: 100px;
       display: inline-block;
       text-align: center;
-      border-radius: 5px;
+      font-weight: bold;
       color: #fff;
+      font-size: 16px;
     }
     .path {
       margin-right: 10px;
@@ -33,6 +36,17 @@
         font-size: 16x;
       }
     }
+    .parameter-table {
+      .parameter-located-in {
+        width: 10%;
+      }
+      .parameter-required {
+        width: 10%;
+      }
+      .parameter-schema {
+        width: 35%;
+      }
+    }
     .response-header {
       border-bottom: 1px solid #999;
       h3 {
@@ -48,10 +62,10 @@
       width: 15%;
     }
     .response-description {
-      width: 25%;
+      width: 20%;
     }
     .response-schema {
-      width: 60%;
+      width: 65%;
     }
   }
 
