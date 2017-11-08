@@ -31,6 +31,8 @@ export default class ProjectCreate extends React.Component {
 
   componentDidMount() {
     const store = this.props.app;
+    const uiStore = this.props.uiStore;
+    uiStore.setPageTitle('创建项目');
     if (!store.projects.length) {
       store.loadProjects();
     }

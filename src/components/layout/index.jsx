@@ -96,7 +96,8 @@ const styles = theme => ({
   content: {
     backgroundColor: theme.palette.background.default,
     width: '100%',
-    maxWidth: 960,
+    minWidth: 1000,
+    maxWidth: 1200,
     marginLeft: 'auto',
     marginRight: 'auto',
     padding: theme.spacing.unit * 3,

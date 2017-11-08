@@ -25,7 +25,6 @@ export default class SchemaPreview extends React.Component {
   }
 
   render() {
-    const isPreviewSchema = this.props.isPreviewSchema;
     return (
       // <pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(this.props.schema, null, 2)}</pre>
       <div className="schema-preview" ref={this.saveSchemaRef}></div>

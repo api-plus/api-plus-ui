@@ -1,6 +1,6 @@
 import React from 'react';
 import { object, string } from 'prop-types';
-import { Card, Typography } from 'material-ui';
+import { Card } from 'material-ui';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Button from 'material-ui/Button';
 
@@ -31,10 +31,8 @@ class ApiCard extends React.Component {
       <div className={`component-api-card ${method}`}>
         <Card>
           <div className="header">
-            <Typography type="title">
               <span className="method">{method.toUpperCase()}</span>
               <span className="path">{path}</span>
-            </Typography>
             <span className="summary">{schema.summary}</span>
           </div>
           <div className="body">
@@ -53,14 +51,14 @@ class ApiCard extends React.Component {
                 !schema.parameters
                 ? <p>&lt;None&gt;</p>
                 : (
-                  <Table>
+                  <Table className="parameter-table">
                     <TableHead>
                       <TableRow>
                         <TableCell>Name</TableCell>
                         <TableCell>Description</TableCell>
-                        <TableCell>Located in</TableCell>
-                        <TableCell>Required</TableCell>
-                        <TableCell>Data Type | Schema</TableCell>
+                        <TableCell className="parameter-located-in">Located in</TableCell>
+                        <TableCell className="parameter-required">Required</TableCell>
+                        <TableCell className="parameter-schema">Data Type | Schema</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>

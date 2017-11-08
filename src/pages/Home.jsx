@@ -11,7 +11,7 @@ export default class Home extends React.Component {
       store.loadProjects();
     }
     const uiStore = this.props.uiStore;
-    uiStore.setPageTitle('总览');
+    uiStore.setPageTitle('Api Plus');
   }
 
   render() {
