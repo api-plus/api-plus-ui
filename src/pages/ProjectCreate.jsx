@@ -15,7 +15,7 @@ const history = createHistory();
 
 import Project from '../models/Project';
 import SchemaEditor from '../components/schema-editor';
-import SchemaForm from '../components/schema-form';
+import SwaggerForm from '../components/swagger-form';
 
 import './ProjectCreate.less';
 
@@ -93,7 +93,7 @@ export default class ProjectCreate extends React.Component {
         }
         {
           uiStore.createProjectTab === 1
-          && <SchemaForm initialSchema={tempProject.getSwaggerObject()} />
+          && <SwaggerForm initialValue={tempProject.getSwaggerObject()} />
         }
       </div>
     );

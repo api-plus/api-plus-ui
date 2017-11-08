@@ -1,14 +1,17 @@
 import React from 'react';
 import classnames from 'classnames';
+import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
-import { object, string } from 'prop-types';
+import { object, array } from 'prop-types';
 import Card, { CardContent } from 'material-ui/Card';
 import { FormControl } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import MenuItem from 'material-ui/Menu/MenuItem';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Select from 'material-ui/Select';
 import Typography from 'material-ui/Typography';
+import { RemoveCircleOutline } from 'material-ui-icons';
 
 import Parameter from './Parameter';
 
@@ -16,17 +19,8 @@ const styles = theme => ({
   width20: {
     width: '20%'
   },
-  width30: {
-    width: '30%'
-  },
   width40: {
     width: '40%'
-  },
-  width60: {
-    width: '60%'
-  },
-  width80: {
-    width: '80%'
   },
   textField: {
     paddingRight: '10px'
@@ -38,6 +32,19 @@ const styles = theme => ({
     color: '#999',
     fontSize: '80%'
   },
+  parameterForm: {
+    width: '95%',
+    display: 'inline-block'
+  },
+  removeBtn: {
+    color: '#666',
+    cursor: 'pointer',
+    width: '5%'
+  },
+  smallLinkBtn: {
+    color: theme.palette.background.primary,
+    fontSize: '80%'
+  },
   fieldset: {
     borderColor: '#aaa',
     borderStyle: 'solid',
@@ -47,48 +54,43 @@ const styles = theme => ({
   }
 });
 
-class Path extends React.Component {
+@observer
+class Operation extends React.Component {
+
   static propTypes = {
-    method: string,
-    definitions: object,
-    initialOperation: object,
-    path: string.isRequired,
+    definitions: array,
+    value: object.isRequired,
     classes: object.isRequired,
   };
 
   static defaultProps = {
-    method: 'get',
-    definitions: [],
-    initialOperation: {
-      description: '',
-      produces: ['application/json'],
-      consumes: ['application/json'],
-      schemes: ['http'],
-      parameters: [],
-      responses: []
-    }
+    definitions: []
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      operation: props.initialOperation
-    }
+  static defaultPath = {
+    path: '/api/new/path',
+    method: 'get',
+    description: 'This is a description',
+    responses: [],
+  };
+
+  handleParamAddClick = () => {
+    this.props.value.addParameter();
+  }
+  handleParamRemoveClick = (index) => {
+    this.props.value.removeParameter(index);
   }
 
   render() {
-    const { operation } = this.state;
-    const { classes, className, definitions, path, method } = this.props;
+    const { classes, className, definitions } = this.props;
+    const operation = this.props.value;
 
-    const consumes = operation.consumes || ['application/json'];
-    const produces = operation.produces || ['application/json'];
-    
     return (
-      <div className={classnames('component-schema-path', className)}>
+      <div className={classnames('schema-form-operation', className)}>
         <TextField
           className={`${classes.textField} ${classes.width40}`}
           label="Path"
-          value={path}
+          value={operation.pathname}
         />
 
         <TextField
@@ -96,7 +98,7 @@ class Path extends React.Component {
           select
           label="Method"
           margin="normal"
-          value={method}
+          value={operation.method}
         >
           <MenuItem value="get">GET</MenuItem>
           <MenuItem value="post">POST</MenuItem>
@@ -106,7 +108,7 @@ class Path extends React.Component {
 
         <FormControl className={`${classes.textField} ${classes.width20}`}>
           <InputLabel>Consumes</InputLabel>
-          <Select multiple value={consumes}>
+          <Select multiple value={Array.from(operation.consumes)}>
             <MenuItem value="application/json">application/json</MenuItem>
             <MenuItem value="multipart/form-data">multipart/form-data</MenuItem>
             <MenuItem value="application/x-www-form-urlencoded">application/x-www-form-urlencoded</MenuItem>
@@ -115,7 +117,7 @@ class Path extends React.Component {
 
         <FormControl className={`${classes.textField} ${classes.width20}`}>
           <InputLabel>Produces</InputLabel>
-          <Select multiple value={produces}>
+          <Select multiple value={Array.from(operation.produces)}>
             <MenuItem value="application/json">application/json</MenuItem>
           </Select>
         </FormControl>
@@ -128,24 +130,32 @@ class Path extends React.Component {
         />
 
         <Typography className={classes.subheading} type="subheading" component="h3">
-          Parameters
+          Parameters 
         </Typography>
         {
           operation.parameters
-          ? operation.parameters.map(parameter => 
-            <Parameter key={parameter.name} definitions={definitions} />
-          )
-          : <span className={classes.noData}>No Parameters</span>
+          ? operation.parameters.map((parameter, i) => (
+              <div key={`${parameter.name}-${i}`}>
+                <Parameter className={classes.parameterForm} value={parameter} />
+                <RemoveCircleOutline 
+                  className={classes.removeBtn} 
+                  onClick={this.handleParamRemoveClick.bind(this, i)} 
+                />
+              </div>
+            ))
+          : <span className={classes.noData}>No Parameters &nbsp;</span>
         }
+        <a className={classes.smallLinkBtn} href="javascript: void(0);" onClick={this.handleParamAddClick}>+ Add One</a>
         
         <Typography className={classes.subheading} type="subheading" component="h3">
           Responses
         </Typography>
-        <span className={classes.noData}>No Responses</span>
+        <span className={classes.noData}>No Responses &nbsp;</span>
+        <a className={classes.smallLinkBtn} href="javascript: void(0);" onClick={this.handleResAddClick}>+ Add One</a>
 
       </div>
     );
   }
 }
 
-export default withStyles(styles)(Path);
+export default withStyles(styles)(Operation);
