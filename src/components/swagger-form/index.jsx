@@ -49,30 +49,7 @@ class SwaggerForm extends React.Component {
 
   constructor(props) {
     super(props);
-
     store.swagger.init(props.initialValue);
-    store.ui.operations = store.swagger.getOperations();
-    // const swaggerObj = props.initialValue;
-
-    // const pathArr = [];
-    // const paths = Object.keys(swaggerObj.paths);
-    // for(let i = 0; i < paths.length; i++) {
-    //   const path = paths[i];
-    //   const methods = Object.keys(swaggerObj.paths[path]);
-    //   for(let j = 0; j < methods.length; j++) {
-    //     const method = methods[j];
-    //     const operationObj = swaggerObj.paths[path][method];
-    //     pathArr.push({
-    //       path, method, 
-    //       ...operationObj
-    //     });
-    //  }
-    // }
-    // this.state = {
-    //   info: swaggerObj.info,
-    //   paths: pathArr,
-    //   definitions: {}
-    // }
   }
 
   handleTitleChange = (e, value) => {
@@ -80,21 +57,21 @@ class SwaggerForm extends React.Component {
 
   // 新增一个 path
   handlePathAddClick = ({pathname, method}) => {
-    const index = store.ui.operations.findIndex(operation => 
+    const index = store.swagger.operationArr.findIndex(operation => 
       operation.pathname === pathname && operation.method === method
     );
-    store.ui.addOperation(index);
+    store.swagger.addOperation(index);
   }
 
   // 删除一个 path
   handlePathDeleteClick = ({pathname, method}) => {
-    store.ui.removeOperation(pathname, method);
+    store.swagger.removeOperation(pathname, method);
   }
   
   render() {
     const { classes } = this.props;
-    const { swagger, ui } = store;
-    const operations = ui.operations;
+    const swagger = store.swagger;
+    const operations = swagger.operationArr;
     
     return (
       <div className={classnames('schema-form', this.props.className)}>

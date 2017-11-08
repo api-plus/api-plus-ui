@@ -2408,6 +2408,10 @@ http-status@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/http-status/-/http-status-1.0.1.tgz#dc43001a8bfc50ac87d485a892f7578964bc94a2"
 
+http-statuscode@^1.0.2:
+  version "1.0.2"
+  resolved "http://registry.npm.taobao.org/http-statuscode/download/http-statuscode-1.0.2.tgz#680d3eb48f79a0f6b89f4d5363162d121aba342b"
+
 https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"

@@ -3,9 +3,11 @@
 Swagger Object Model
 https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#swagger-object
 
+Expands pathname, method, responseArr field from Official Operation Object
+
 */
 
-import { observable } from 'mobx';
+import { action, observable } from 'mobx';
 import Operation from './Operation';
 
 export default class Swagger {
@@ -24,7 +26,8 @@ export default class Swagger {
   @observable security;
   @observable tags;
   @observable externalDocs;
-
+  @observable operationArr; // this field is used for ui, not in Official Operation Object
+  
   static defaultValue = {
     swagger: '',
     info: {},
@@ -35,12 +38,13 @@ export default class Swagger {
     produces: [],
     paths: {},
     definitions: {},
-    parameters: {},
-    responses: {},
+    parameters: null,
+    responses: null,
     securityDefinitions: {},
     security: [],
     tags: [],
     externalDocs: {},
+    operationArr: []
   }
 
   constructor(swagger) {
@@ -49,10 +53,11 @@ export default class Swagger {
 
   init(swagger) {
     Object.assign(this, Swagger.defaultValue, swagger);
+    this.operationArr = this.setOperationArr();
   }
 
   // 获取 operation 列表
-  getOperations() {
+  setOperationArr() {
     const operations = [];
     const pathnames = Object.keys(this.paths);
     for(let i = 0; i < pathnames.length; i++) {
@@ -69,5 +74,23 @@ export default class Swagger {
       }
     }
     return operations;
+  }
+  
+  /* 
+    添加 operation
+    @param index <number> the location where new operation obj should be inserted to
+    @param operation <object> the new operation data
+  */
+  @action
+  addOperation(index = 0, operation = Operation.defaultValue) {
+    this.operationArr.splice(index, 0, new Operation(operation));
+  }
+
+  @action
+  removeOperation(pathname, method) {
+    const index = this.operationArr.findIndex(operation => 
+      operation.pathname === pathname && operation.method === method
+    );
+    this.operationArr.splice(index, 1);
   }
 }

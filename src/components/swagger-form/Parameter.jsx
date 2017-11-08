@@ -26,7 +26,7 @@ const styles = theme => ({
     paddingRight: '10px'
   },
   iptSchema: {
-    width: '20%',
+    width: '25%',
     paddingRight: '10px'
   },
   iptType: {
@@ -41,10 +41,6 @@ class Parameter extends React.Component {
     value: object.isRequired,
     classes: object.isRequired,
   };
-
-  handleRemoveBtnClick = () => {
-
-  }
   
   render() {
     const { classes } = this.props;
@@ -93,12 +89,13 @@ class Parameter extends React.Component {
               select
               label="Schema"
               margin="normal"
-              value={parameter.schema}
+              value={parameter.schema || 'empty'}
               className={classes.iptSchema}
             >
-              {definitions.map(def => 
-                <MenuItem value={def}>{def.replace('#/definitions/', '')}</MenuItem>
+              {Object.keys(definitions).map(def => 
+                <MenuItem key={def} value={def}>{def.replace('#/definitions/', '')}</MenuItem>
               )}
+              <MenuItem key={'empty'} value={'empty'}>Empty Object</MenuItem>
             </TextField>
           )
           : (
@@ -116,7 +113,6 @@ class Parameter extends React.Component {
             </TextField>
           )
         }
-        
       </span>
     );
   }

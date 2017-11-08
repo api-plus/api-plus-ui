@@ -127,6 +127,11 @@ paths:
       consumes:
       - application/json
       description: 返回所有的项目
+      parameters:
+        - name: id
+          in: body
+          description: 'id'
+          type: string
       responses:
         '200':
           description: projects response

@@ -14,6 +14,7 @@ import Typography from 'material-ui/Typography';
 import { RemoveCircleOutline } from 'material-ui-icons';
 
 import Parameter from './Parameter';
+import Response from './Response';
 
 const styles = theme => ({
   width20: {
@@ -33,6 +34,10 @@ const styles = theme => ({
     fontSize: '80%'
   },
   parameterForm: {
+    width: '95%',
+    display: 'inline-block'
+  },
+  responseForm: {
     width: '95%',
     display: 'inline-block'
   },
@@ -79,6 +84,12 @@ class Operation extends React.Component {
   }
   handleParamRemoveClick = (index) => {
     this.props.value.removeParameter(index);
+  }
+  handleResAddClick = () => {
+    this.props.value.addResponse();
+  }
+  handleResRemoveClick = (response) => {
+    this.props.value.removeResponse(response.statusCode);
   }
 
   render() {
@@ -150,7 +161,21 @@ class Operation extends React.Component {
         <Typography className={classes.subheading} type="subheading" component="h3">
           Responses
         </Typography>
-        <span className={classes.noData}>No Responses &nbsp;</span>
+        {
+          operation.responseArr.map((response, i) => (
+            <div key={`${response.statusCode}-${i}`}>
+              <Response className={classes.responseForm} value={response} />
+              {
+                response.statusCode !== 'default' && (
+                  <RemoveCircleOutline 
+                    className={classes.removeBtn} 
+                    onClick={this.handleResRemoveClick.bind(this, response)}
+                  />
+                )
+              }
+            </div>
+          ))
+        }
         <a className={classes.smallLinkBtn} href="javascript: void(0);" onClick={this.handleResAddClick}>+ Add One</a>
 
       </div>

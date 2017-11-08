@@ -34,7 +34,7 @@ export default class Parameter {
   }
 
   constructor(parameter) {
-    if (parameter.in) {
+    if (parameter && parameter.in) {
       parameter.locatedIn = parameter.in;
     }
     Object.assign(this, Parameter.defaultValue, parameter);

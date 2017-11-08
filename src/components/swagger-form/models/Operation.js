@@ -3,12 +3,13 @@
 Operation Object Model
 https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operationObject
 
-Expands pathname and method field from Official Operation Object
+Expands pathname, method, responseArr field from Official Operation Object
 
 */
 
 import { action, observable } from 'mobx';
 import Parameter from './Parameter';
+import Response from './Response';
 
 export default class Operation {
   @observable pathname; // not in Official Operation Object
@@ -25,6 +26,7 @@ export default class Operation {
   @observable schemes;
   @observable deprecated;
   @observable security;
+  @observable responseArr; // this field is used for ui, not in Official Operation Object
 
   static defaultValue = {
     pathname: '/api/pathname',
@@ -37,21 +39,34 @@ export default class Operation {
     consumes: ['application/json'],
     produces: ['application/json'],
     parameters: null,
-    responses: {},
+    responses: {
+      default: Response.defaultValue
+    },
     schemes: ['http'],
     deprecated: false,
-    security: []
+    security: [],
+    responseArr: []
   }
 
   constructor(operation) {
     Object.assign(this, Operation.defaultValue, operation);
+    // set parameters
     if (this.parameters) {
       this.parameters = this.parameters.map(parameter => new Parameter(parameter));
     }
+    // set responses
+    Object.entries(operation.responses).forEach(([statusCode, response]) => {
+      const newResponse = new Response({
+        statusCode,
+        ...response
+      });
+      operation.responses[statusCode] = newResponse;
+      this.responseArr.push(newResponse)
+    });
   }
 
   @action
-  addParameter(parameter = Parameter.defaultValue) {
+  addParameter(parameter) {
     this.parameters = this.parameters || [];
     this.parameters.push(new Parameter(parameter));
   }
@@ -63,4 +78,20 @@ export default class Operation {
       this.parameters = null;
     }
   }
+  
+  @action
+  addResponse(response) {
+    const newResponse = new Response(response);
+    this.responseArr.splice(0, 0, newResponse);
+    if (response && !this.responses[response.statusCode]) {
+      this.responses[response.statusCode] = newResponse;
+    }
+  }
+  
+  @action
+  removeResponse(statusCode) {
+    const index = this.responseArr.findIndex(response => response.statusCode === statusCode);
+    this.responseArr.splice(index, 1);
+  }
+  
 }

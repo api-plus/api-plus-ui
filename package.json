@@ -29,6 +29,7 @@
     "classnames": "^2.2.5",
     "history": "^4.7.2",
     "http-status": "^1.0.1",
+    "http-statuscode": "^1.0.2",
     "js-cookie": "^2.1.4",
     "json-schema-view-js": "^1.0.1",
     "material-ui": "^1.0.0-beta.16",
